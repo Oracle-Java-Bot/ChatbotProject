@@ -1,0 +1,76 @@
+.titleFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--M);
+  animation: fadeIn 0.8s ease-in-out;
+}
+.topTitle {
+  font-size: var(--LG);
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.mainBody {
+  width: 100%;
+  height: 100%;
+  background-color: var(--almostwhite);
+  border-radius: var(--btn-border);
+  padding: 20px 25px;
+  font-size: var(--S);
+  box-shadow: var(--shortglow);
+}
+
+.title {
+  font-size: var(--M);
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.view {
+  font-size: var(--S) !important;
+  cursor: pointer;
+  animation: fadeIn 1s ease-in-out;
+}
+
+.sFont {
+  font-size: var(--S);
+  animation: fadeIn 1s ease-in-out;
+}
+
+.mFont {
+  font-size: var(--M);
+  animation: fadeIn 1s ease-in-out;
+}
+.task {
+  padding: 15px 15px;
+  margin: 10px 0;
+  background-color: var(--white);
+  box-shadow: var(--shortglow);
+  border-radius: calc(var(--btn-border) - 3px);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.btn {
+  width: 100%;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px 40px;
+  margin: 20px 0px;
+  border-radius: var(--btn-border);
+  font-size: var(--S);
+  text-align: center;
+  animation: fadeIn 1.4s ease-in-out;
+  box-shadow: var(--shortglow);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+    transform: translate3d(0, 30%, 0);
+  }
+  to {
+    opacity: 100%;
+    transform: translate3d(0, 0, 0);
+  }
+}

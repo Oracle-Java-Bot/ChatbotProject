@@ -1,0 +1,48 @@
+/* Form */
+.title {
+  font-weight: 700;
+  font-size: var(--M);
+  margin: 10px 0px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+.cat {
+  font-weight: 500;
+  font-size: var(--S);
+  animation: fadeIn 1s ease-in-out;
+}
+.input {
+  background-color: var(--lightergrey);
+  border-radius: var(--btn-border);
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: var(--S);
+  animation: fadeIn 1.2s ease-in-out;
+}
+.btn {
+  width: 100%;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px 40px;
+  margin: 20px 0px;
+  border-radius: var(--btn-border);
+  font-size: var(--S);
+  text-align: center;
+  animation: fadeIn 1.4s ease-in-out;
+}
+
+.teamBtn {
+  margin: 10px 0px;
+  padding: 0.5rem 1rem !important;
+  animation: fadeIn 1.2s ease-in-out !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0%;
+    transform: translate3d(0, 30%, 0);
+  }
+  to {
+    opacity: 100%;
+    transform: translate3d(0, 0, 0);
+  }
+}

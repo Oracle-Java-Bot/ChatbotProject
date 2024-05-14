@@ -1,0 +1,52 @@
+/* Main Container*/
+.telegramHeight {
+  color: var(--black);
+  height: var(--tg-viewport-stable-height);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.top {
+  justify-content: flex-start;
+}
+
+.centered {
+  justify-content: space-between;
+}
+
+.trueCenter {
+  justify-content: center;
+}
+
+/* Top and Bottom Containers */
+
+.wrapper {
+  height: fit-content;
+  flex-shrink: 0;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+/* Main Body Container */
+
+.body {
+  width: 100%;
+
+  height: fit-content;
+  margin: 20px auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.fit {
+  height: fit-content;
+}
+
+.full {
+  height: 100%;
+}
