@@ -140,8 +140,114 @@ CREATE USER $U IDENTIFIED BY "$DB_PASSWORD" DEFAULT TABLESPACE data QUOTA UNLIMI
 GRANT CREATE SESSION, CREATE VIEW, CREATE SEQUENCE, CREATE PROCEDURE TO $U;
 GRANT CREATE TABLE, CREATE TRIGGER, CREATE TYPE, CREATE MATERIALIZED VIEW TO $U;
 GRANT CONNECT, RESOURCE, pdb_dba, SODA_APP to $U;
-CREATE TABLE TODOUSER.todoitem (id NUMBER GENERATED ALWAYS AS IDENTITY, description VARCHAR2(4000), creation_ts TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP, done NUMBER(1,0) , PRIMARY KEY (id));
-insert into TODOUSER.todoitem  (description, done) values ('Manual item insert', 0);
+
+CREATE TABLE TODOUSER.Teams (
+    id INT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+CREATE SEQUENCE autoincremento_teams_id
+START WITH 1
+INCREMENT BY 1;
+CREATE OR REPLACE TRIGGER trigger_teams
+BEFORE INSERT ON Teams
+FOR EACH ROW
+BEGIN
+    SELECT autoincremento_teams_id.NEXTVAL INTO :NEW.id FROM DUAL;
+END;
+
+
+CREATE TABLE TODOUSER.Users (
+    id INT PRIMARY KEY,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    team_id INT NOT NULL,
+    role VARCHAR2(20) NOT NULL,
+
+    FOREIGN KEY (team_id) REFERENCES teams(id),
+    CONSTRAINT chk_role CHECK (role IN ('manager', 'developer'))
+);
+CREATE SEQUENCE autoincremento_users_id
+START WITH 1
+INCREMENT BY 1;
+CREATE OR REPLACE TRIGGER trigger_users_id
+BEFORE INSERT ON Users
+FOR EACH ROW
+BEGIN
+    SELECT autoincremento_users_id.NEXTVAL INTO :NEW.id FROM DUAL;
+END;
+
+CREATE TABLE TODOUSER.Tasks (
+    id INT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description VARCHAR2(4000) NOT NULL,
+    priority VARCHAR(20) NOT NULL,
+    status VARCHAR(20) DEFAULT 'pending' NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    completed_at TIMESTAMP,
+    team_id INT NOT NULL,
+    developer_id INT NOT NULL,
+    FOREIGN KEY (team_id) REFERENCES TEAMS(id),
+    FOREIGN KEY (developer_id) REFERENCES Users(id),
+    CONSTRAINT chk_priority_tasks CHECK (priority IN ('low', 'medium', 'high')),
+    CONSTRAINT chk_status_tasks CHECK (status IN ('pending', 'ongoing', 'completed'))
+);
+CREATE SEQUENCE autoincremento_tasks_id
+START WITH 1
+INCREMENT BY 1;
+CREATE OR REPLACE TRIGGER trigger_tasks
+BEFORE INSERT ON Tasks
+FOR EACH ROW
+BEGIN
+    SELECT autoincremento_tasks_id.NEXTVAL INTO :NEW.id FROM DUAL;
+END;
+CREATE OR REPLACE TRIGGER trg_update_timestamp
+BEFORE UPDATE ON Tasks
+FOR EACH ROW
+BEGIN
+    :NEW.updated_at := CURRENT_TIMESTAMP;
+END;
+CREATE OR REPLACE TRIGGER trigger_actualizar_completed_at
+BEFORE UPDATE OF status ON Tasks
+FOR EACH ROW
+BEGIN
+    IF :NEW.status = 'completed' AND :OLD.status != 'completed' THEN
+        :NEW.completed_at := CURRENT_TIMESTAMP;
+    END IF;
+END;
+
+CREATE TABLE TODOUSER.Standup (
+    id INT PRIMARY KEY,
+    progress VARCHAR2(4000) NOT NULL,
+    plans VARCHAR2(4000) NOT NULL,
+    challenge VARCHAR2(4000) NOT NULL,
+    support VARCHAR2(4000) NOT NULL,
+    time_standup TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    team_id INT NOT NULL,
+    developer_id INT NOT NULL,
+    FOREIGN KEY (team_id) REFERENCES Teams(id),
+    FOREIGN KEY (developer_id) REFERENCES Users(id)
+);
+CREATE SEQUENCE autoincremento_standup_id
+START WITH 1
+INCREMENT BY 1;
+CREATE OR REPLACE TRIGGER trigger_standup
+BEFORE INSERT ON Standup
+FOR EACH ROW
+BEGIN
+    SELECT autoincremento_standup_id.NEXTVAL INTO :NEW.id FROM DUAL;
+END;
+
+INSERT INTO TODOUSER.Teams (name)
+VALUES ('Equipo Super Chido');
+INSERT INTO TODOUSER.Users (email, password, name, dev_team_id,  )
+VALUES ('correo@outlook.com','contraseña','JP', 1);
+INSERT INTO TODOUSER.Tasks (title, description, priority, team_id, developer_id)
+VALUES ('tasks demo', 'comprobar que funcione la table de tasks', 'high', 1, 1);
+insert into TODOUSER.STANDUP (progress, plans, challenge, support, team_id, DEVELOPER_ID)
+values('Vamos bien', 'Terminar base de datos y usuario', 'Es dificil oracle sql', 'Otros teams nos ayudan', 1,1);
+
 commit;
 !
   state_set_done TODO_USER
