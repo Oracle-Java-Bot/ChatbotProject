@@ -1,4 +1,4 @@
-package com.talentpentagon.javabot.configuration;
+package com.bot.javabot.config;
 
 import oracle.jdbc.pool.OracleDataSource;
 import org.slf4j.Logger;
