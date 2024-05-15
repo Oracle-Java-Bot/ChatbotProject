@@ -241,7 +241,10 @@ END;
 
 INSERT INTO TODOUSER.Teams (name)
 VALUES ('Equipo Super Chido');
-INSERT INTO TODOUSER.Users (email, password, name, dev_team_id,  )
+INSERT INTO TODOUSER.Users (email, password, name, team_id, role )
+VALUES ('correo@outlook.com','contraseña','JP', 1, 'developer');
+INSERT INTO TODOUSER.Users (email, password, name, team_id, role )
+VALUES ('email@hotmail.com','password','JJJ', 1, 'manager');
 VALUES ('correo@outlook.com','contraseña','JP', 1);
 INSERT INTO TODOUSER.Tasks (title, description, priority, team_id, developer_id)
 VALUES ('tasks demo', 'comprobar que funcione la table de tasks', 'high', 1, 1);
