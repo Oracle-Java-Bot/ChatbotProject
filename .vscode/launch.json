@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "JavabotApplication",
+            "request": "launch",
+            "mainClass": "com.bot.javabot.JavabotApplication",
+            "projectName": "javabot"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-JavabotApplication<MyTodoList>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

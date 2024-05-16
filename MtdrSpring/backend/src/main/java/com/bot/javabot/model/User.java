@@ -1,6 +1,7 @@
 package com.bot.javabot.model;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "Users")
@@ -25,6 +26,11 @@ public class User {
     @Column(name = "role")
     String role;
 
+    //MappedBy = The relationship is owned by Task Entity; mapped by "developer" field in Task
+    @OneToMany(mappedBy = "developer")
+    private List<Task> tasks;
+
+    //Getters
     public int getId() {
         return id;
     }
