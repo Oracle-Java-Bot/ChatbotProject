@@ -1,7 +1,7 @@
-FROM openjdk:11
+FROM openjdk:17
 COPY pom.xml /tmp/
 COPY src /tmp/src/
 WORKDIR /tmp/
 EXPOSE 8080
-COPY target/MyTodoList-0.0.1-SNAPSHOT.jar MyTodoList.jar
-ENTRYPOINT ["java","-jar","MyTodoList.jar"]
+COPY target/javabot-0.0.1-SNAPSHOT.jar javabot.jar
+ENTRYPOINT ["java","-jar","javabot.jar"]
