@@ -1,4 +1,4 @@
-package com.bot.javabot.config;
+/*package com.bot.javabot.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -44,3 +44,5 @@ public void setDriver_class_name(String driver_class_name) {
 this.driver_class_name = driver_class_name;
 }
 }
+
+*/

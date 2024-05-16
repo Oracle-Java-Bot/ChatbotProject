@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-JavabotApplication<MyTodoList>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.bot.javabot.JavabotApplication",
+            "projectName": "MyTodoList",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

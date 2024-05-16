@@ -1,4 +1,4 @@
-package com.bot.javabot.config;
+/*package com.bot.javabot.config;
 
 import oracle.jdbc.pool.OracleDataSource;
 import org.slf4j.Logger;
@@ -40,4 +40,4 @@ public DataSource dataSource() throws SQLException{
     // ds.setPassword(dbSettings.getPassword());
     return ds;
     }
-}
+}*/
