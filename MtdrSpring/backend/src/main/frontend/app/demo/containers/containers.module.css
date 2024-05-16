@@ -1,0 +1,62 @@
+/* Main Container*/
+.telegramHeight {
+  color: var(--black);
+  height: var(--tg-viewport-stable-height);
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.top {
+  justify-content: flex-start;
+}
+
+.centered {
+  justify-content: space-between;
+}
+
+.trueCenter{
+  justify-content: center;
+}
+/* Top and Bottom Containers */
+
+.wrapper {
+  background-color: var(--lightgrey);
+  height: fit-content;
+  flex-shrink: 0;
+  padding: 20px 0px;
+  border-radius: 10px;
+}
+
+.bottom {
+  margin-top: auto;
+}
+
+/* Main Body Container */
+
+.body {
+  background-color: var(--lightgrey);
+  height: fit-content;
+  border-radius: 10px;
+  margin: 20px 0px;
+}
+
+.fit {
+  height: fit-content;
+}
+
+.full {
+  height: 100%;
+}
+
+/* Developer Dashboard Top */
+.topLine {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Button */
+
+.btn {
+  padding: 10px 20px;
+}

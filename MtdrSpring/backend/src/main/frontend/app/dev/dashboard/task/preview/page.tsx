@@ -1,0 +1,142 @@
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import r from "../../../../responsive.module.css";
+import s from "../task.module.css";
+import Link from "next/link";
+
+export default function Home() {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const [isFull, setFull] = useState(false); /* Expands the body cont */
+  const [isCentered, setCentered] = useState(false); /* Centers the body cont */
+  const [isBottom, setBottom] = useState(true);
+  const trueCenter = false;
+
+  /* CURRENT USER */
+  const [user, setUser] = useState<{
+    id: number;
+    name: string;
+    developer_id: string;
+    manager_id: string;
+  }>();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedUserString = localStorage.getItem("user");
+      setUser(JSON.parse(storedUserString || "[]"));
+    }
+  }, []);
+
+  /* TASK LIST */
+  const [tasks, setTasks] = useState<
+    {
+      id: number;
+      title: string;
+      description: string;
+      priority: string;
+      status: string;
+      developer_id: number;
+      notes: string;
+    }[]
+  >([]);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedTasksString = localStorage.getItem(
+        "team_" + user?.developer_id
+      );
+      setTasks(JSON.parse(storedTasksString || "[]"));
+    }
+  }, [user]);
+
+  /* TEMP TASK */
+  const [tempTask, setTempTask] = useState<{
+    id: number;
+    title: string;
+    description: string;
+    priority: string;
+    status: string;
+    developer_id: number;
+    notes: string;
+  }>();
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const storedTempTask = localStorage.getItem("tempTask");
+      setTempTask(JSON.parse(storedTempTask || ""));
+    }
+  }, [user]);
+
+  const addTask = () => {
+    if (tempTask) {
+      setTasks((prevTasks) => [...prevTasks, tempTask]);
+    }
+  };
+
+  useEffect(() => {
+    localStorage.setItem("team_" + user?.developer_id, JSON.stringify(tasks));
+  }, [tasks]);
+
+  return (
+    <div
+      /* Main Container */
+      className={
+        isCentered
+          ? trueCenter
+            ? `${r.telegramHeight} ${r.trueCenter}`
+            : `${r.telegramHeight} ${r.centered}`
+          : `${r.telegramHeight} ${r.top}`
+      }
+    >
+      <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+      <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
+        <div className={`${s.topTitle} font-bold`}>Preview Task</div>{" "}
+        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+      </div>
+
+      <div
+        /* Main Body */ className={
+          isFull ? `${r.body} ${r.full}` : `${r.body} ${r.fit}`
+        }
+      >
+        <div className={s.mainBody}>
+          <div className="flex justify-between">
+            <div className={s.title}> {tempTask?.title}</div>
+            <div
+              className={
+                tempTask?.priority === "Low"
+                  ? `${s.priority} ml-2 bg-green-400`
+                  : tempTask?.priority === "Medium"
+                  ? `${s.priority} ml-2 bg-yellow-400`
+                  : `${s.priority} ml-2 bg-red-400`
+              }
+            >
+              {tempTask?.priority}
+            </div>
+          </div>
+          <div className={`${s.fastFadeIn} !text-gray-60"`}>
+            {tempTask?.developer_id == user?.developer_id ? user?.name : ""}
+          </div>
+          <div className={`${s.fastFadeIn} !pt-3`}>{tempTask?.description}</div>
+          <div className={`${s.fastFadeIn} !font-bold pt-3`}> Notes</div>
+          <div className={s.fastFadeIn}> {tempTask?.notes}</div>
+        </div>
+      </div>
+
+      <div
+        /* Bottom Wrapper */
+        className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
+      >
+        <Link
+          onClick={addTask}
+          href="/dev/dashboard/task/created"
+          className={`${s.btn}  !bg-red-500`}
+        >
+          Create Task
+        </Link>
+      </div>
+    </div>
+  );
+}
