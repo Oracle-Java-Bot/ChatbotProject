@@ -1,8 +1,6 @@
-
 package com.bot.javabot.model;
 
 import java.sql.Timestamp;
-
 import javax.persistence.*;
 
 @Entity
@@ -10,7 +8,7 @@ import javax.persistence.*;
 public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int  id;
+    int id;
 
     @Column(name = "title")
     String title;
@@ -33,12 +31,21 @@ public class Task {
     @Column(name = "completed_at")
     Timestamp completed_at;
 
-    @Column(name = "team_id")
-    int team;
+    /*@Column(name = "team_id")
+    int team;*/
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+    //Many tasks to one Team
 
-    @Column(name = "developer_id")
-    int developer;
+    /*@Column(name = "developer_id")
+    int developer;*/
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
+    private User developer;
+    //Many developers to one team
 
+    //Getters
     public int getId() {
         return id;
     }
@@ -103,19 +110,21 @@ public class Task {
         this.completed_at = completed_at;
     }
 
-    public int getTeam() {
+    //Team model datatype
+    public Team getTeam() {
         return team;
     }
 
-    public void setTeam(int team) {
+    public void setTeam(Team team) {
         this.team = team;
     }
 
-    public int getDeveloper() {
+    //User model datatype
+    public User getDeveloper() {
         return developer;
     }
 
-    public void setDeveloper(int developer) {
+    public void setDeveloper(User developer) {
         this.developer = developer;
     }
 
@@ -133,4 +142,6 @@ public class Task {
         ", developer_id='" + developer +
         '}';
     }
+
+
 }
