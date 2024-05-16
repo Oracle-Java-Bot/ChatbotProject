@@ -18,4 +18,9 @@ public class TeamService {
         List<Team> teams = teamRepository.findAll();
         return teams;
     }
+
+    //save
+    public Team save(Team team){
+        return teamRepository.save(team);
+    }
 }

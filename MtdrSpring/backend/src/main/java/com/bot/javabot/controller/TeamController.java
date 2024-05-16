@@ -10,11 +10,14 @@ import java.util.List;
 @RestController
 public class TeamController {
     @Autowired
-    private TeamService userService;
+    private TeamService teamService;
 
-    // Create endpoints 
+    //Endpoints
+    //ALL TEAMS
     @GetMapping(value = "/teams")
     public List<Team> getAll(){
-        return userService.findAll();
+        return teamService.findAll();
     }
+
+    //Post
 }
