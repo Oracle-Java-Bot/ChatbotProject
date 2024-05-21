@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-// @CrossOrigin is used because the frontend is running on a different port
 @CrossOrigin(origins = "http://localhost:3000")
 public class TaskController {
     @Autowired
