@@ -94,13 +94,13 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>
-          Welcome {JSON.parse(localStorage.getItem("user") ?? "{}").email ?? ""}!
+          Welcome {JSON.parse(localStorage.getItem("user") ?? "{}").name ?? ""}!
         </div>{" "}
         <div className={` text-gray-600 `}>
-          #Team {JSON.parse(localStorage.getItem("team_id") ?? "{}").team_id ?? ""}
+          #Team {JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? ""}
         </div>
       </div>
-      <div className={s.sFont}>Developer: {user?.role}</div>
+      <div className={s.sFont}>Role: {JSON.parse(localStorage.getItem("user") ?? "{}").role ?? ""}</div>
 
       <div className="flex justify-center gap-4 mt-4">
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
