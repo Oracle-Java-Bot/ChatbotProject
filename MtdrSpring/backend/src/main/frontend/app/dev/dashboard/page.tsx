@@ -42,21 +42,26 @@ export default function Home() {
     const fetchData = async () => {
       try {
         if (typeof window !== 'undefined') {
-          const teamId = localStorage.getItem('team_id');
-          const response = await axios.get(`http://159.54.139.184/tasks/team/${teamId}`);
-          const data = response.data;
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            const userID = user.id;
   
-          // Set user data
-          setUser({
-            id: data[0].developer.id,
-            email: data[0].developer.email,
-            team_id: data[0].developer.team_id,
-            role: data[0].developer.role,
-          });
+            const response = await axios.get(`http://159.54.139.184/tasks/developer/${userID}`);
+            const data = response.data;
   
-          // Set tasks data
-          setTasks(data);
-          console.log("Data fetched:", data);
+            // Set user data
+            setUser({
+              id: data[0].developer.id,
+              email: data[0].developer.email,
+              team_id: data[0].developer.team_id,
+              role: data[0].developer.role,
+            });
+  
+            // Set tasks data
+            setTasks(data);
+            console.log("Data fetched:", data);
+          }
         }
       } catch (error) {
         console.error("Error fetching data:", error);
