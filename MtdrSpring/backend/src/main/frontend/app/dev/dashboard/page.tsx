@@ -41,7 +41,9 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://159.54.139.184/tasks/team/1");
+        const teamId = localStorage.getItem('team_id');
+
+        const response = await axios.get(`http://159.54.139.184/tasks/team/${teamId}`);
         const data = response.data;
 
         // Set user data
