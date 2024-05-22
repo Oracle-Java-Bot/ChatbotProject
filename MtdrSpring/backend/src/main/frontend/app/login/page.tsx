@@ -7,11 +7,20 @@ import r from "../responsive.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  password: string;
+  team_id: number | null;
+  role: string;
+}
+
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState<User[]>([]);
 
   useEffect(() => {
     fetchUsers();
@@ -34,22 +43,23 @@ export default function Login() {
   }, []);
 
   const handleLogin = () => {
-    const user = users.find(
-      (user: { id: any; name: any; email: any; password: any; team_id: any; role: any; }) => user.email === email && user.password === password
-    );
+    const user = users.find((user) => user.email === email && user.password === password);
 
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-      console.log("User logged in:", user);
-      if (user.role === "manager" && user.team_id !== null && user.team_id !== 0) {
-        router.push("/manager/dashboard");
-      } else if (user.role === "developer" && user.team_id !== null && user.team_id !== 0) {
-        router.push("/dev/dashboard");
+    if (users.length > 0) {
+      const user = users.find((user: User) => user.email === email && user.password === password);
+      if (user) {
+        localStorage.setItem("user", JSON.stringify(user));
+        console.log("User logged in:", user);
+        if (user.role === "manager" && user.team_id !== null && user.team_id !== 0) {
+          router.push("/manager/dashboard");
+        } else if (user.role === "developer" && user.team_id !== null && user.team_id !== 0) {
+          router.push("/dev/dashboard");
+        } else {
+          router.push("/login/team");
+        }
       } else {
-        router.push("/login/team");
+        alert("Invalid email or password. Please try again.");
       }
-    } else {
-      alert("Invalid email or password. Please try again.");
     }
   };
 
