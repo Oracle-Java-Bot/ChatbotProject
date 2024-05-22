@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import s from "./login.module.css";
 import r from "../responsive.module.css";
@@ -13,6 +14,19 @@ export default function Login() {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/users");
+      setUsers(response.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUsersString = localStorage.getItem("users");
       setUsers(JSON.parse(storedUsersString || "[]"));
@@ -21,28 +35,18 @@ export default function Login() {
 
   const handleLogin = () => {
     const user = users.find(
-      (user: { email: string; password: string }) =>
-        user.email === email && user.password === password
+      (user: { id: any; name: any; email: any; password: any; team_id: any; role: any; }) => user.email === email && user.password === password
     );
+
     if (user) {
       localStorage.setItem("user", JSON.stringify(user));
-      if (
-        (user as { developer_id: number }).developer_id != null &&
-        (user as { developer_id: number }).developer_id != 0 &&
-        (user as { manager_id: number }).manager_id != null &&
-        (user as { manager_id: number }).manager_id != 0
-      ) {
-        router.push("/login/team");
-      } else if (
-        (user as { developer_id: number }).developer_id != null &&
-        (user as { developer_id: number }).developer_id != 0
-      ) {
-        router.push("/dev/dashboard");
-      } else if (
-        (user as { manager_id: number }).manager_id != null &&
-        (user as { manager_id: number }).manager_id != 0
-      ) {
+      console.log("User logged in:", user);
+      if (user.role === "manager" && user.team_id !== null && user.team_id !== 0) {
         router.push("/manager/dashboard");
+      } else if (user.role === "developer" && user.team_id !== null && user.team_id !== 0) {
+        router.push("/dev/dashboard");
+      } else {
+        router.push("/login/team");
       }
     } else {
       alert("Invalid email or password. Please try again.");
