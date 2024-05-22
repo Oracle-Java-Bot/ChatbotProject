@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
+import axios from "axios";
 import Image from "next/image";
 import r from "../../responsive.module.css";
 import s from "./dashboard.module.css";
@@ -16,17 +17,10 @@ export default function Home() {
   /* CURRENT USER */
   const [user, setUser] = useState<{
     id: number;
-    name: string;
-    developer_id: number;
-    manager_id: number;
+    email: string;
+    team_id: number;
+    role: string;
   }>();
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUserString = localStorage.getItem("user");
-      setUser(JSON.parse(storedUserString || "[]"));
-    }
-  }, []);
 
   /* TASK LIST */
   const [tasks, setTasks] = useState<
@@ -35,23 +29,64 @@ export default function Home() {
       title: string;
       priority: string;
       status: string;
-      developer_id: number;
-      manager_id: number;
+      developer: {
+        id: number;
+        email: string;
+        team_id: number;
+        role: string;
+      };
     }[]
   >([]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedTasksString = localStorage.getItem(
-        "team_" + user?.manager_id
-      );
-      setTasks(JSON.parse(storedTasksString || "[]"));
-    }
-  }, [user]);
+    const fetchData = async () => {
+      try {
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            const teamID = user.team_id;
+  
+            const response = await axios.get(`http://159.54.139.184/tasks/team/${teamID}`);
+            const data = response.data;
+  
+            // Set user data
+            setUser({
+              id: data[0].developer.id,
+              email: data[0].developer.email,
+              team_id: data[0].developer.team_id,
+              role: data[0].developer.role,
+            });
+  
+            // Set tasks data
+            setTasks(data);
+            console.log("Data fetched:", data);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+  
+    fetchData();
+  }, []);
 
   /* CURRENT TASK */
-  const updateTask = (updatedTask: number) => {
-    localStorage.setItem("currentTask", JSON.stringify(updatedTask));
+  const updateTask = (task: {
+    id: number;
+    title: string;
+    priority: string;
+    status: string;
+    developer: {
+      id: number;
+      email: string;
+      team_id: number;
+      role: string;
+    };
+  }) => {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("currentTask", JSON.stringify(task));
+    }
   };
 
   return (
@@ -68,14 +103,24 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>Welcome {user?.name}!</div>{" "}
-        <div className={` text-gray-600 `}>#Team {user?.manager_id}</div>
+        <div className={`${s.topTitle} font-bold`}>
+          Welcome {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").name ?? "")}!
+        </div>{" "}
+        <div className={` text-gray-600 `}>
+          #Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}
+        </div>
       </div>
-      <div className={s.sFont}>Manager</div>
+      <div className={s.sFont}>
+        Role: {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").role ?? "")}
+      </div>
 
       <div className="flex justify-center gap-4 mt-4">
-        <Link href="" className={`${s.btn}   !bg-black `}>
-          Performance Review
+        <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
+          Create Task
+        </Link>
+
+        <Link href="" className={`${s.btn}   !bg-black hidden`}>
+          --- WIP ---
         </Link>
       </div>
 
@@ -92,44 +137,38 @@ export default function Home() {
             </Link>
           </div>
 
-          {tasks.map(
-            (task: {
-              id: number;
-              title: string;
-              priority: string;
-              status: string;
-            }) => (
-              <div key={task.id}>
-                <div className={s.task}>
-                  <div>{task.title}</div>
-                  <div className={s.rightOpt}>
-                    <div
-                      className={
-                        task.status === "in-progress"
-                          ? `${s.status} bg-yellow-500`
-                          : task.status === "pending"
-                          ? `${s.status} bg-orange-500`
-                          : task.status === "completed"
-                          ? `${s.status} bg-green-500`
-                          : `${s.status} bg-red-500`
-                      }
-                    >
-                      {task.status}
-                    </div>
-
-                    <Link
-                      onClick={() => updateTask(task.id)}
-                      href="dashboard/task/details"
-                    >
-                      <img className={s.icon} src="/icons/open.png" />
-                    </Link>
-                  </div>
+          {tasks.map((task) => (
+            <div key={task.id}>
+              <div className={s.task}>
+                <div>{task.title}</div>
+                <div className={s.rightOpt}>
+                  <div
+                    className={
+                      task.priority === "Low"
+                        ? `${s.priorityIndicator} bg-green-500`
+                        : task.priority === "Medium"
+                        ? `${s.priorityIndicator}  bg-yellow-500 `
+                        : `${s.priorityIndicator} bg-red-500`
+                    }
+                  />
+                  <Link
+                    onClick={() => updateTask(task)}
+                    href="dashboard/task/edit"
+                  >
+                    <img className={s.icon} src="/icons/edit.png" />
+                  </Link>
+                  <Link
+                    onClick={() => updateTask(task)}
+                    href="dashboard/task/details"
+                  >
+                    <img className={s.icon} src="/icons/open.png" />
+                  </Link>
                 </div>
               </div>
-            )
-          )}
+            </div>
+          ))}
         </div>
-      </div>
+      </div> 
 
       <div
         /* Bottom Wrapper */

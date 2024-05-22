@@ -41,25 +41,33 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/tasks/team/1");
-        const data = response.data;
-
-        // Set user data
-        setUser({
-          id: data[0].developer.id,
-          email: data[0].developer.email,
-          team_id: data[0].developer.team_id,
-          role: data[0].developer.role,
-        });
-
-        // Set tasks data
-        setTasks(data);
-        console.log("Data fetched:", data);
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            const userID = user.id;
+  
+            const response = await axios.get(`http://159.54.139.184/tasks/developer/${userID}`);
+            const data = response.data;
+  
+            // Set user data
+            setUser({
+              id: data[0].developer.id,
+              email: data[0].developer.email,
+              team_id: data[0].developer.team_id,
+              role: data[0].developer.role,
+            });
+  
+            // Set tasks data
+            setTasks(data);
+            console.log("Data fetched:", data);
+          }
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+  
     fetchData();
   }, []);
 
@@ -76,7 +84,9 @@ export default function Home() {
       role: string;
     };
   }) => {
-    localStorage.setItem("currentTask", JSON.stringify(task));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem("currentTask", JSON.stringify(task));
+    }
   };
 
   return (
@@ -93,10 +103,16 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>Welcome {user?.email}!</div>{" "}
-        <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
+        <div className={`${s.topTitle} font-bold`}>
+          Welcome {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").name ?? "")}!
+        </div>{" "}
+        <div className={` text-gray-600 `}>
+          #Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}
+        </div>
       </div>
-      <div className={s.sFont}>Developer: {user?.role}</div>
+      <div className={s.sFont}>
+        Role: {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").role ?? "")}
+      </div>
 
       <div className="flex justify-center gap-4 mt-4">
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
