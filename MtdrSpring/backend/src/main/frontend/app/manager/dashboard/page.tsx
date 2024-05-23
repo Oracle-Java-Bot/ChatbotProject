@@ -47,7 +47,7 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const teamID = user.team_id;
   
-            const response = await axios.get(`http://159.54.139.184/tasks/team/${teamID}`);
+            const response = await axios.get(`http://159.54.151.115/tasks/team/${teamID}`);
             const data = response.data;
   
             // Set user data
