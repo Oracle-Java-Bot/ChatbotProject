@@ -28,7 +28,7 @@ export default function Login() {
 
   const fetchUsers = async () => {
     try {
-      const response = await axios.get("https://140.84.163.209/users");
+      const response = await axios.get("http://140.84.163.209/users");
       setUsers(response.data);
     } catch (error) {
       console.error("Error fetching users:", error);
