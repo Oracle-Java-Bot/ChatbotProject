@@ -1,6 +1,5 @@
 package com.bot.javabot.config;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -23,7 +22,6 @@ public class CorsConfig {
         config.setAllowedOrigins(List.of("https://chatbot-project-chi.vercel.app", "http://localhost:3000","https://objectstorage.us-phoenix-1.oraclecloud.com",
                 "https://petstore.swagger.io"));
         config.setAllowedMethods(List.of("GET","POST","PUT","OPTIONS","DELETE","PATCH"));
-        config.setAllowedOrigins(Collections.singletonList("*"));
         config.addAllowedHeader("*");
         config.addExposedHeader("location");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
