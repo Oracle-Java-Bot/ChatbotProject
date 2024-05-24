@@ -47,7 +47,7 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const userID = user.id;
   
-            const response = await axios.get(`https://159.54.151.115/tasks/developer/${userID}`);
+            const response = await axios.get(`http://159.54.151.115/tasks/developer/${userID}`);
             const data = response.data;
   
             // Set user data
