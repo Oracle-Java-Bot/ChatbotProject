@@ -18,4 +18,10 @@ public class StandupService {
         List<Standup> standups = standupRepository.findAll();
         return standups;
     }
+
+
+    //Save
+    public Standup save(Standup standup){
+        return standupRepository.save(standup);
+    }
 }
