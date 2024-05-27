@@ -2,6 +2,7 @@ package com.bot.javabot.controller;
 
 import com.bot.javabot.model.Standup;
 import com.bot.javabot.service.StandupService;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,5 +21,11 @@ public class StandupController {
     @GetMapping(value = "/standups")
     public List<Standup> getAll(){
         return standupService.findAll();
+    }
+
+    @PostMapping(value = "/standups")
+    public ResponseEntity<Standup> createStandup(@RequestBody Standup standup){
+        Standup createdStandup = standupService.save(standup);
+        return new ResponseEntity<>(standup, HttpStatus.CREATED);
     }
 }
