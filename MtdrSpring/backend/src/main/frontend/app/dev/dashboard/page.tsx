@@ -47,7 +47,7 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const userID = user.id;
   
-            const response = await axios.get(`http://159.54.138.110/tasks/developer/${userID}`);
+            const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
             const data = response.data;
   
             // Set user data
@@ -144,9 +144,9 @@ export default function Home() {
                 <div className={s.rightOpt}>
                   <div
                     className={
-                      task.priority === "Low"
+                      task.priority === "low"
                         ? `${s.priorityIndicator} bg-green-500`
-                        : task.priority === "Medium"
+                        : task.priority === "medium"
                         ? `${s.priorityIndicator}  bg-yellow-500 `
                         : `${s.priorityIndicator} bg-red-500`
                     }
