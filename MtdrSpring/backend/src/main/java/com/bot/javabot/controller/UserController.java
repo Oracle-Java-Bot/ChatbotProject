@@ -2,6 +2,9 @@ package com.bot.javabot.controller;
 
 import com.bot.javabot.model.User;
 import com.bot.javabot.service.UserService;
+
+import oracle.jdbc.proxy.annotation.Post;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,5 +38,12 @@ public class UserController {
     public ResponseEntity<User> createUser(@RequestBody User user){
         User createdUser = userService.createUser(user);
         return new ResponseEntity<>(createdUser, HttpStatus.OK);
+    }
+
+    //Get User By email and Password
+    @GetMapping(value = "/users/{email}/{password}")
+    public ResponseEntity<User> getUserByEmailAndPassword(@PathVariable("email") String email, @PathVariable("password") String password){
+        User user = userService.getUserByEmailAndPassword(email, password);
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 }

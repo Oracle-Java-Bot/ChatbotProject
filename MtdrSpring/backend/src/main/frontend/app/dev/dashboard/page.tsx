@@ -144,9 +144,9 @@ export default function Home() {
                 <div className={s.rightOpt}>
                   <div
                     className={
-                      task.priority === "Low"
+                      task.priority === "low"
                         ? `${s.priorityIndicator} bg-green-500`
-                        : task.priority === "Medium"
+                        : task.priority === "medium"
                         ? `${s.priorityIndicator}  bg-yellow-500 `
                         : `${s.priorityIndicator} bg-red-500`
                     }
