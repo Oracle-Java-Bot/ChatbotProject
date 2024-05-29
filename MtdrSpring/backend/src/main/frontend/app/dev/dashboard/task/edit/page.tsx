@@ -29,6 +29,17 @@ export default function Home() {
     }
   }, []);
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const storedCurrTask = localStorage.getItem("currentTask");
+      if (storedCurrTask) {
+        console.log("Current Task:", JSON.parse(storedCurrTask));
+      } else {
+        console.log("No current task found in localStorage");
+      }
+    }
+  }, []);
+
   /* TASK LIST */
   const [tasks, setTasks] = useState<
     {
@@ -70,15 +81,18 @@ export default function Home() {
   }>();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       const storedCurrTask = localStorage.getItem("currentTask");
-      setCurrTask(JSON.parse(storedCurrTask || "0"));
-
-      setCurrentTask(
-        tasks.find((task) => task.id == Number.parseInt(currTask))
-      );
+      if (storedCurrTask) {
+        const parsedTask = JSON.parse(storedCurrTask);
+        setCurrentTask(parsedTask);
+        setTitle(parsedTask.title);
+        setDescription(parsedTask.description);
+        setNotes(parsedTask.notes);
+        setPriority(parsedTask.priority);
+      }
     }
-  }, [tasks]);
+  }, []);
 
   useEffect(() => {
     setTitle(currentTask?.title || "");
@@ -139,18 +153,21 @@ export default function Home() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
+            placeholder={currentTask?.title}
           />
           <div className={s.cat}> Description: </div>
           <textarea
             className={`${s.input} `}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            placeholder={currentTask?.description}
           />
           <div className={s.cat}> Notes: </div>
           <textarea
             className={s.input}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
+            placeholder={currentTask?.notes}
           />
           <div>
             <div className={s.cat}> Select Priority: </div>
