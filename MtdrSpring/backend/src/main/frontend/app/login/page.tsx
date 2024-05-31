@@ -15,6 +15,7 @@ export default function Login() {
     try {
       const response = await axios.get(`https://team12.kenscourses.com/users/${email}/${encodeURIComponent(password)}`);
       const user = response.data;
+      console.log("User:", user);
 
       if (user) {
         localStorage.setItem("user", JSON.stringify(user));
