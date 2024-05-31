@@ -13,7 +13,7 @@ env:
     - BACK_IMAGE_NAME
     - DOCKER_REGISTRY
     - BUILDRUN_HASH
-    - ORABOT_PDB_NAME
+    - JAVABOT_PDB_NAME
     - OCI_REGION
 
 steps:
@@ -27,8 +27,8 @@ steps:
       export DOCKER_REGISTRY=`echo mx-queretaro-1.ocir.io/axwws7xqgtyv/reacttodo/25e1r`
       echo "DOCKER_REGISTRY: " ${DOCKER_REGISTRY}
 
-      export ORABOT_PDB_NAME=`echo reacttodo25e1r`
-      echo "ORABOT_PDB_NAME: " ${ORABOT_PDB_NAME}
+      export JAVABOT_PDB_NAME=`echo reacttodo25e1r`
+      echo "JAVABOT_PDB_NAME: " ${JAVABOT_PDB_NAME}
 
       export OCI_REGION=`echo qro.ocir.io`
       echo "OCI_REGION: " ${OCI_REGION}
