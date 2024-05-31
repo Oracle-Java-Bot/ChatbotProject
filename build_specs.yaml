@@ -93,7 +93,7 @@ steps:
 
 
 outputArtifacts:
-  - name: orabot
+  - name: javabot
     type: DOCKER_IMAGE
     location: backend-image
 
