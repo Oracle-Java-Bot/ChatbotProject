@@ -87,7 +87,7 @@ steps:
   - type: Command
     name: "Build backend image"
     command: |
-      cd ${OCI_PRIMARY_SOURCE_DIR}/backend
+      cd ${OCI_PRIMARY_SOURCE_DIR}/MtdrSpring/backend
       docker build --platform=linux/aarch64 -f Dockerfile -t backend-image .
       echo "Backend image built in aarch64"
 
