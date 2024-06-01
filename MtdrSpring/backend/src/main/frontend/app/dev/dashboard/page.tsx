@@ -22,21 +22,22 @@ export default function Home() {
     role: string;
   }>();
 
-  /* TASK LIST */
   const [tasks, setTasks] = useState<
-    {
+  {
+    id: number;
+    title: string;
+    priority: string;
+    status: string;
+    developer: {
       id: number;
-      title: string;
-      priority: string;
-      status: string;
-      developer: {
-        id: number;
-        email: string;
-        team_id: number;
-        role: string;
-      };
-    }[]
-  >([]);
+      email: string;
+      team_id: number;
+      role: string;
+    };
+    created_at: string;
+    updated_at: string;
+  }[]
+>([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -141,6 +142,7 @@ export default function Home() {
             <div key={task.id}>
               <div className={s.task}>
                 <div>{task.title}</div>
+                <div className={s.taskDate}>{new Date(task.created_at).toISOString().slice(0, 10)}</div>
                 <div className={s.rightOpt}>
                   <div
                     className={
