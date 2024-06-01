@@ -24,8 +24,8 @@ public class Task {
 
     @Column(name = "created_at")
     Timestamp created_at;
-    
-    @Column(name = "updated_at")
+
+     @Column(name = "updated_at")
     Timestamp updated_at;
 
     @Column(name = "completed_at")
@@ -44,6 +44,23 @@ public class Task {
     @JoinColumn(name = "developer_id")
     private User developer;
     //Many developers to one team
+
+    //Timestamp Management
+    //onCreate is called automatically by JPA when it's persisted (Saved)
+    //taskService.save(task)
+    @PrePersist
+    protected void onCreate() {
+        created_at = new Timestamp(System.currentTimeMillis());
+        updated_at = new Timestamp(System.currentTimeMillis());
+    }
+
+    //onUpdate is called automatically just before an existing task is updated in the database
+    //taskService.update(id, task)
+    @PreUpdate
+    protected void onUpdate(){
+        updated_at = new Timestamp(System.currentTimeMillis());
+        //Current time
+    }
 
     //Getters
     public int getId() {

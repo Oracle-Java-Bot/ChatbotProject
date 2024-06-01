@@ -51,9 +51,16 @@ public class TaskService {
             existingTask.setTitle(updatedTask.getTitle());
             existingTask.setDescription(updatedTask.getDescription());
             existingTask.setPriority(updatedTask.getPriority());
+
             existingTask.setStatus(updatedTask.getStatus());
-            existingTask.setCreated_at(updatedTask.getCreated_at());
-            existingTask.setCompleted_at(updatedTask.getCompleted_at());
+
+            //Handle completed_at based on status
+            if("completed".equals(updatedTask.getStatus())){
+                existingTask.setCompleted_at(new Timestamp(System.currentTimeMillis()));
+            } else {
+                existingTask.setCompleted_at(null); //Reset si el task deja de estar completo
+            }
+
             existingTask.setTeam(updatedTask.getTeam());
             existingTask.setDeveloper(updatedTask.getDeveloper());
 
@@ -69,6 +76,33 @@ public class TaskService {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         if(optionalTask.isPresent()){
             taskRepository.delete(optionalTask.get());
+        } else {
+            throw new TaskNotFoundException("Task not found with ID: " + taskId);
+        }
+    }
+
+
+    //NO USAGE - handle a task completion
+    public Task completeTask(int taskId) {
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+            task.setStatus("Completed");
+            task.setCompleted_at(new Timestamp(System.currentTimeMillis()));
+            return taskRepository.save(task);
+        } else {
+            throw new TaskNotFoundException("Task not found with ID: " + taskId);
+        }
+    }
+
+    //NO USAGE - reopen a task
+    public Task reopenTask(int taskId) {
+        Optional<Task> optionalTask = taskRepository.findById(taskId);
+        if (optionalTask.isPresent()) {
+            Task task = optionalTask.get();
+            task.setStatus("In Progress"); // Or whatever status you use for reopened tasks
+            task.setCompleted_at(null);
+            return taskRepository.save(task);
         } else {
             throw new TaskNotFoundException("Task not found with ID: " + taskId);
         }

@@ -56,6 +56,20 @@ public class TaskController {
         return new ResponseEntity<>(updatedTask, HttpStatus.OK);
     }
 
+    //NO USAGE - Complete a task
+    @PatchMapping(value = "/tasks/{id}/complete")
+    public ResponseEntity<Task> completeTask(@PathVariable int id) {
+        Task completedTask = taskService.completeTask(id);
+        return new ResponseEntity<>(completedTask, HttpStatus.OK);
+    }
+
+    //NO USAGE - reopen a task
+    @PatchMapping(value = "/tasks/{id}/reopen")
+    public ResponseEntity<Task> reopenTask(@PathVariable int id) {
+        Task reopenedTask = taskService.reopenTask(id);
+        return new ResponseEntity<>(reopenedTask, HttpStatus.OK);
+    }
+
     //DELETE
     @DeleteMapping(value = "/tasks/{id}")
     public ResponseEntity<Task> deleteTask(@PathVariable int id){
