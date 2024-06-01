@@ -17,9 +17,14 @@ export default function Home() {
   const [user, setUser] = useState<{
     id: number;
     name: string;
-    developer_id: string;
+    email: string;
+    password: string;
+    developer_id: number;
     manager_id: string;
+    team_id: number; 
+    role: string;
   }>();
+
 
   useEffect(() => {
     if (typeof window !== "undefined") {
