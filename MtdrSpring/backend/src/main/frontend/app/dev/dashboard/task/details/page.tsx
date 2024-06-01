@@ -157,9 +157,9 @@ export default function Home() {
             <div className={s.title}> {currentTask?.title}</div>
             <div
               className={
-                currentTask?.priority === "Low"
+                currentTask?.priority === "low"
                   ? `${s.priority} ml-2 bg-green-400`
-                  : currentTask?.priority === "Medium"
+                  : currentTask?.priority === "medium"
                   ? `${s.priority} ml-2 bg-yellow-400`
                   : `${s.priority} ml-2 bg-red-400`
               }

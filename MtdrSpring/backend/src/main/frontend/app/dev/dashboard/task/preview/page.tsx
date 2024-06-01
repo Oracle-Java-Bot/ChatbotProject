@@ -4,6 +4,7 @@ import Image from "next/image";
 import r from "../../../../responsive.module.css";
 import s from "../task.module.css";
 import Link from "next/link";
+import axios from "axios";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -73,9 +74,33 @@ export default function Home() {
     }
   }, [user]);
 
-  const addTask = () => {
+  const addTask = async () => {
     if (tempTask) {
-      setTasks((prevTasks) => [...prevTasks, tempTask]);
+      try {
+        const response = await axios.post("https://team12.kenscourses.com/tasks", {
+        ...tempTask,
+        team: {
+        id: user?.team_id,
+        name: "Equipo Super Chido"
+        },
+        developer: {
+          id: user?.id,
+          name: user?.name,
+          email: user?.email,
+          password: user?.password,
+          team_id: user?.team_id,
+          role: user?.role
+        }
+      });
+      if (response.status === 201) {
+        setTasks((prevTasks) => [...prevTasks, tempTask]);
+        localStorage.removeItem("tempTask");
+      } else {
+        console.error("Failed to create task");
+      }
+      } catch (error) {
+        console.error("Error creating task:", error);
+      }
     }
   };
 

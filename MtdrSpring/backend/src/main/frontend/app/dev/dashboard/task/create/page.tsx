@@ -58,7 +58,7 @@ export default function Home() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [notes, setNotes] = useState("");
-  const [priority, setPriority] = useState("Medium");
+  const [priority, setPriority] = useState("medium");
   const [tempTask, setTempTask] = useState<{
     id: number;
     title: string;
@@ -89,6 +89,7 @@ export default function Home() {
 
   useEffect(() => {
     localStorage.setItem("tempTask", JSON.stringify(tempTask));
+    console.log(tempTask);
   }, [tempTask]);
 
   return (
