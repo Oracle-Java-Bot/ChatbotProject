@@ -14,12 +14,16 @@ export default function Home() {
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
-  /* CURRENT USER */
-  const [user, setUser] = useState<{
+   /* CURRENT USER */
+   const [user, setUser] = useState<{
     id: number;
     name: string;
-    developer_id: string;
+    email: string;
+    password: string;
+    developer_id: number;
     manager_id: string;
+    team_id: number; 
+    role: string;
   }>();
 
   useEffect(() => {
@@ -138,7 +142,7 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>Edit Task</div>{" "}
-        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
       <div
@@ -148,11 +152,10 @@ export default function Home() {
       >
         <div className={s.createBody}>
           <div className={s.cat}>Title:</div>
-          <input
+          <textarea
             className={s.input}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            type="text"
             placeholder={currentTask?.title}
           />
           <div className={s.cat}> Description: </div>
@@ -176,9 +179,9 @@ export default function Home() {
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
             >
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select>
           </div>
         </div>

@@ -14,8 +14,8 @@ export default function Home() {
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
-  /* CURRENT USER */
-  const [user, setUser] = useState<{
+   /* CURRENT USER */
+   const [user, setUser] = useState<{
     id: number;
     name: string;
     email: string;
@@ -77,7 +77,9 @@ export default function Home() {
   const addTask = async () => {
     if (tempTask) {
       try {
-        const response = await axios.post("https://team12.kenscourses.com/tasks", {
+        //ONCE WE REDEPLOY WE CAN USE TEAM12.KENSCOURSES.COM
+        //const response = await axios.post("https://team12.kenscourses.com/tasks", {
+        const response = await axios.post("http://localhost:8080/tasks", {
         ...tempTask,
         team: {
         id: user?.team_id,
