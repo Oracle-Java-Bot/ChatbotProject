@@ -22,6 +22,33 @@ export default function Home() {
     role: string;
   }>();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        if (typeof window !== 'undefined') {
+          const storedUser = localStorage.getItem('user');
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            const teamID = user.team_id;
+    
+            const response = await axios.get(`https://team12.kenscourses.com/tasks/team/${teamID}`);
+            const data = response.data;
+    
+            // Set tasks data
+            setTasks(data);
+            console.log("Data fetched:", data);
+            
+            // Save tasks data to local storage
+            localStorage.setItem('tasks', JSON.stringify(data));
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   /* TASK LIST */
   const [tasks, setTasks] = useState<
     {
@@ -31,45 +58,15 @@ export default function Home() {
       status: string;
       developer: {
         id: number;
+        name: string;
         email: string;
         team_id: number;
         role: string;
       };
+      created_at: string;
+      updated_at: string;
     }[]
   >([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (typeof window !== 'undefined') {
-          const storedUser = localStorage.getItem('user');
-          if (storedUser) {
-            const user = JSON.parse(storedUser);
-            const teamID = user.team_id;
-  
-            const response = await axios.get(`https://team12.kenscourses.com/tasks/team/${teamID}`);
-            const data = response.data;
-  
-            // Set user data
-            setUser({
-              id: data[0].developer.id,
-              email: data[0].developer.email,
-              team_id: data[0].developer.team_id,
-              role: data[0].developer.role,
-            });
-  
-            // Set tasks data
-            setTasks(data);
-            console.log("Data fetched:", data);
-          }
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
-    fetchData();
-  }, []);
 
   /* CURRENT TASK */
   const updateTask = (task: {
@@ -140,8 +137,12 @@ export default function Home() {
           {tasks.map((task) => (
             <div key={task.id}>
               <div className={s.task}>
+              <div>
                 <div>{task.title}</div>
+                <div>Created at: {new Date(task.created_at).toISOString().slice(0, 10)}</div>
+              </div>
                 <div className={s.rightOpt}>
+                  <div className={s.taskDate}>{task.developer.name}</div>
                   <div
                     className={
                       task.priority === "low"
