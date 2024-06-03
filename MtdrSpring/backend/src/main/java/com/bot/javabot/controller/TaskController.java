@@ -49,7 +49,7 @@ public class TaskController {
         return new ResponseEntity<>(createdTask, HttpStatus.CREATED);
     }
 
-    //PUT
+    //PUT - edit 
     @PutMapping(value = "tasks/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable int id, @RequestBody Task task){
         Task updatedTask = taskService.update(id, task); //ENUMS ! (completed at change with status)
@@ -57,6 +57,7 @@ public class TaskController {
     }
 
     //NO USAGE - Complete a task
+    //PatchMapping = partial updates
     @PatchMapping(value = "/tasks/{id}/complete")
     public ResponseEntity<Task> completeTask(@PathVariable int id) {
         Task completedTask = taskService.completeTask(id);
