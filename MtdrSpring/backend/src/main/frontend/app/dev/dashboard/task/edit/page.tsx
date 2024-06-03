@@ -4,22 +4,24 @@ import Image from "next/image";
 import r from "../../../../responsive.module.css";
 import s from "../task.module.css";
 import { userAgentFromString } from "next/server";
-import Link from "next/link";
+import axios from 'axios';
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
-
-  const [isFull, setFull] = useState(false); /* Expands the body cont */
-  const [isCentered, setCentered] = useState(false); /* Centers the body cont */
+  const [isFull, setFull] = useState(false);
+  const [isCentered, setCentered] = useState(false);
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
-  /* CURRENT USER */
   const [user, setUser] = useState<{
     id: number;
     name: string;
-    developer_id: string;
+    email: string;
+    password: string;
+    developer_id: number;
     manager_id: string;
+    team_id: number;
+    role: string;
   }>();
 
   useEffect(() => {
@@ -29,18 +31,6 @@ export default function Home() {
     }
   }, []);
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedCurrTask = localStorage.getItem("currentTask");
-      if (storedCurrTask) {
-        console.log("Current Task:", JSON.parse(storedCurrTask));
-      } else {
-        console.log("No current task found in localStorage");
-      }
-    }
-  }, []);
-
-  /* TASK LIST */
   const [tasks, setTasks] = useState<
     {
       id: number;
@@ -58,18 +48,17 @@ export default function Home() {
       const storedTasksString = localStorage.getItem(
         "team_" + user?.developer_id
       );
-      setTasks(JSON.parse(storedTasksString || "[]"));
+      const parsedTasks = JSON.parse(storedTasksString || "[]");
+      setTasks(parsedTasks);
+      localStorage.setItem("team_" + user?.developer_id, JSON.stringify(parsedTasks));
     }
-  }, [user]);
+  }, [user?.developer_id]);
 
-  /* EDIT TASK */
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [notes, setNotes] = useState("");
   const [priority, setPriority] = useState("");
 
-  /* CURRENT Task */
-  const [currTask, setCurrTask] = useState("0");
   const [currentTask, setCurrentTask] = useState<{
     id: number;
     title: string;
@@ -77,7 +66,21 @@ export default function Home() {
     priority: string;
     status: string;
     developer_id: string;
+    completed_at: string;
+    created_at: string;
+    updated_at: string;
     notes: string;
+    developer: {
+      id: number;
+      email: string;
+      team_id: number;
+      role: string;
+      name: string;
+    };
+    team: {
+      id: number;
+      name: string;
+    };
   }>();
 
   useEffect(() => {
@@ -86,46 +89,55 @@ export default function Home() {
       if (storedCurrTask) {
         const parsedTask = JSON.parse(storedCurrTask);
         setCurrentTask(parsedTask);
-        setTitle(parsedTask.title);
-        setDescription(parsedTask.description);
-        setNotes(parsedTask.notes);
-        setPriority(parsedTask.priority);
+        setTitle(parsedTask.title || "");
+        setDescription(parsedTask.description || "");
+        setNotes(parsedTask.notes || "");
+        setPriority(parsedTask.priority || "");
+        console.log("Current Task:", parsedTask);
+      } else {
+        console.log("No current task found in localStorage");
       }
     }
   }, []);
-
-  useEffect(() => {
-    setTitle(currentTask?.title || "");
-    setDescription(currentTask?.description || "");
-    setNotes(currentTask?.notes || "");
-    setPriority(currentTask?.priority || "");
-  }, [currentTask]);
-
-  /* EDIT TASK */
-  const editTask = () => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id === Number.parseInt(currTask)) {
-          return {
-            ...task,
-            title: title,
-            description: description,
-            notes: notes,
-            priority: priority,
-          };
-        }
-        return task;
-      })
-    );
+  
+  const editTask = async () => {
+    try {
+      console.log("Editing task: ", currentTask);
+      const response = await axios.put(`https://team12.kenscourses.com/tasks/${currentTask?.id}`, {
+        title: title,
+        description: description,
+        priority: priority,
+        status: currentTask?.status,
+        created_at: currentTask?.created_at,
+        completed_at: currentTask?.completed_at,
+        team: {
+          id: currentTask?.team.id,
+          name: currentTask?.team.name,
+        },
+        developer: {
+          id: currentTask?.developer.id,
+          name: currentTask?.developer.name,
+          email: currentTask?.developer.email,
+          //password: currentTask?.developer.password,
+          team_id: currentTask?.developer.team_id,
+          role: currentTask?.developer.role,
+        },
+      });
+  
+      console.log("Response:", response);
+      if (response.status === 200) {
+        console.log("Task updated successfully");
+        window.location.href = "/dev/dashboard/task/updated";
+      } else {
+        console.error("Failed to update task");
+      }
+    } catch (error) {
+      console.error("Error updating task:", error);
+    }
   };
-
-  useEffect(() => {
-    localStorage.setItem("team_" + user?.developer_id, JSON.stringify(tasks));
-  }, [tasks]);
-
+  
   return (
     <div
-      /* Main Container */
       className={
         isCentered
           ? trueCenter
@@ -136,28 +148,27 @@ export default function Home() {
     >
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-      <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>Edit Task</div>{" "}
-        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+      <div className={`${r.wrapper} ${s.titleFlex}`}>
+        <div className={`${s.topTitle} font-bold`}>Edit Task</div>
+        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
       <div
-        /* Main Body */ className={
+        className={
           isFull ? `${r.body} ${r.full}` : `${r.body} ${r.fit}`
         }
       >
         <div className={s.createBody}>
           <div className={s.cat}>Title:</div>
-          <input
+          <textarea
             className={s.input}
             value={title}
             onChange={(e) => setTitle(e.target.value)}
-            type="text"
             placeholder={currentTask?.title}
           />
           <div className={s.cat}> Description: </div>
           <textarea
-            className={`${s.input} `}
+            className={`${s.input}`}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             placeholder={currentTask?.description}
@@ -176,16 +187,15 @@ export default function Home() {
               value={priority}
               onChange={(e) => setPriority(e.target.value)}
             >
-              <option value="Low">Low</option>
-              <option value="Medium">Medium</option>
-              <option value="High">High</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
             </select>
           </div>
         </div>
       </div>
 
       <div
-        /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
       >
         <div className={`${s.doublebtn} !bg-black p-2`}>
@@ -194,13 +204,12 @@ export default function Home() {
             src="/icons/back.png"
             className={`${s.backIcon} !ml-3 !mr-4`}
           />
-
-          <Link
+          <button
             className={`${s.btn} ${s.custom} !bg-white !text-black`}
-            href={"/dev/dashboard/task/updated"}
+            onClick={editTask}
           >
-            <button onClick={() => editTask()}>Save Changes</button>
-          </Link>
+            Save Changes
+          </button>
         </div>
       </div>
     </div>

@@ -3,9 +3,13 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import r from "../../../../responsive.module.css";
 import s from "../task.module.css";
-import Link from "next/link";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { useRouter } from "next/navigation";
+import { time } from "console";
 
 export default function Home() {
+  const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
 
   const [isFull, setFull] = useState(false); /* Expands the body cont */
@@ -17,12 +21,8 @@ export default function Home() {
   const [user, setUser] = useState<{
     id: number;
     name: string;
-    email: string;
-    password: string;
-    developer_id: number;
+    developer_id: string;
     manager_id: string;
-    team_id: number; 
-    role: string;
   }>();
 
   useEffect(() => {
@@ -48,28 +48,13 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.manager_id
+        "team_" + user?.developer_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
   }, [user]);
 
-  /* USER LIST */
-  const [users, setUsers] = useState<
-    {
-      id: number;
-      name: string;
-      developer_id: string;
-      manager_id: string;
-    }[]
-  >([]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUsers = localStorage.getItem("users");
-      setUsers(JSON.parse(storedUsers || "[]"));
-    }
-  }, [tasks]);
+  /* EDIT TASK */
 
   /* CURRENT Task */
   const [currTask, setCurrTask] = useState("0");
@@ -79,20 +64,70 @@ export default function Home() {
     description: string;
     priority: string;
     status: string;
-    developer_id: string;
-    notes: string;
+    created_at: string;
+    updated_at: string;
+    completed_at: string;
+    team: {
+      id: number;
+      name: string;
+    };
+    developer: {
+      id: number;
+      name: string;
+      email: string;
+      team_id: number;
+      role: string;
+    };
+    notes?: string;
   }>();
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedCurrTask = localStorage.getItem("currentTask");
-      setCurrTask(JSON.parse(storedCurrTask || "0"));
-
-      setCurrentTask(
-        tasks.find((task) => task.id == Number.parseInt(currTask))
-      );
+      const storedTaskString = localStorage.getItem("currentTask");
+      if (storedTaskString) {
+        const storedTask = JSON.parse(storedTaskString);
+        setCurrentTask(storedTask);
+      }
     }
-  }, [tasks, currentTask]);
+  }, []);
+
+  useEffect(() => {
+    const webApp = (window as any)?.Telegram.WebApp;
+    if (webApp) {
+      setIsExpanded(webApp.isExpanded);
+      webApp.expand();
+    }
+  }, []);
+
+  /* EDIT TASK */
+  const editTask = () => {
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => {
+        if (task.id === Number.parseInt(currTask)) {
+          return {
+            ...task,
+            status: "completed",
+          };
+        }
+        return task;
+      })
+    );
+  };
+
+  useEffect(() => {
+    localStorage.setItem("team_" + user?.developer_id, JSON.stringify(tasks));
+  }, [tasks]);
+
+  const [activeIndex, setActiveIndex] = useState(1);
+
+  useEffect(() => {
+    if (activeIndex === 0) {
+      editTask();
+      setTimeout(() => {
+        router.push("/dev/dashboard/task/completed");
+      }, 500);
+    }
+  }, [activeIndex]);
 
   return (
     <div
@@ -108,8 +143,9 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>Preview Task</div>{" "}
-        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
+        <div className={`${s.topTitle} font-bold`}>Task Details</div>
+        <div className={"text-gray-600"}>#Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}</div>
+        
       </div>
 
       <div
@@ -120,33 +156,23 @@ export default function Home() {
         <div className={s.mainBody}>
           <div className="flex justify-between">
             <div className={s.title}> {currentTask?.title}</div>
-            <div className="flex">
-              <div
-                className={
-                  currentTask?.status === "in-progress"
-                    ? `${s.status} bg-yellow-500`
-                    : `${s.status} bg-orange-500`
-                }
-              >
-                {currentTask?.status}
-              </div>
-              <div
-                className={
-                  currentTask?.priority === "Low"
-                    ? `${s.priority} ml-2 bg-green-400`
-                    : currentTask?.priority === "Medium"
-                    ? `${s.priority} ml-2 bg-yellow-400`
-                    : `${s.priority} ml-2 bg-red-400`
-                }
-              >
-                {currentTask?.priority}
-              </div>
+            <div
+              className={
+                currentTask?.priority === "low"
+                  ? `${s.priority} ml-2 bg-green-400`
+                  : currentTask?.priority === "medium"
+                  ? `${s.priority} ml-2 bg-yellow-400`
+                  : `${s.priority} ml-2 bg-red-400`
+              }
+            >
+              {currentTask?.priority}
             </div>
           </div>
           <div className={`${s.fastFadeIn} !text-gray-60"`}>
-            {"Assigned to: " +
-              users.find((user) => user.id == Number(currentTask?.developer_id))
-                ?.name}
+            {currentTask?.developer.email}
+          </div>
+          <div className={`${s.fastFadeIn} !text-gray-60"`}>
+            {currentTask?.developer.name}
           </div>
           <div className={`${s.fastFadeIn} !pt-3`}>
             {currentTask?.description}
@@ -160,9 +186,30 @@ export default function Home() {
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
       >
-        <Link href="/manager/dashboard/" className={`${s.btn}  !bg-black`}>
-          Return to Dashboard
-        </Link>
+        <div className={s.sliderCont}>
+          <div className={s.float}>
+            <Swiper
+              onRealIndexChange={(element) =>
+                setActiveIndex(element.activeIndex)
+              }
+              className={s.slider}
+              spaceBetween={-100}
+              slidesPerView={1}
+              initialSlide={2}
+            >
+              <SwiperSlide className={s.completedCont}>
+                <div className={`${s.completedSlide}  !bg-black`} />
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
+
+          <button className={`${s.btn}  ${s.sliderBtn}  !bg-black`}>
+            Slide To Complete
+          </button>
+        </div>
       </div>
     </div>
   );
