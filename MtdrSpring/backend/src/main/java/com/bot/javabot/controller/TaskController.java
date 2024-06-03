@@ -58,6 +58,7 @@ public class TaskController {
 
     //NO USAGE - Complete a task
     //PatchMapping = partial updates
+    // Marks task as complete
     @PatchMapping(value = "/tasks/{id}/complete")
     public ResponseEntity<Task> completeTask(@PathVariable int id) {
         Task completedTask = taskService.completeTask(id);

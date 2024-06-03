@@ -87,7 +87,7 @@ public class TaskService {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
-            task.setStatus("Completed");
+            task.setStatus("completed");
             task.setCompleted_at(new Timestamp(System.currentTimeMillis()));
             return taskRepository.save(task);
         } else {
@@ -100,7 +100,7 @@ public class TaskService {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
-            task.setStatus("In Progress"); // Or whatever status you use for reopened tasks
+            task.setStatus("ongoing");
             task.setCompleted_at(null);
             return taskRepository.save(task);
         } else {
