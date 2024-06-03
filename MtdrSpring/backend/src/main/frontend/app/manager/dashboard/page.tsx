@@ -76,10 +76,13 @@ export default function Home() {
     status: string;
     developer: {
       id: number;
+      name: string;
       email: string;
       team_id: number;
       role: string;
     };
+    created_at: string;
+    updated_at: string;
   }) => {
     if (typeof window !== 'undefined') {
       localStorage.setItem("currentTask", JSON.stringify(task));

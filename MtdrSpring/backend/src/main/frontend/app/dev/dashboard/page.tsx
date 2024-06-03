@@ -141,9 +141,12 @@ export default function Home() {
           {tasks.map((task) => (
             <div key={task.id}>
               <div className={s.task}>
-                <div>{task.title}</div>
-                <div className={s.taskDate}>{new Date(task.created_at).toISOString().slice(0, 10)}</div>
+                <div>
+                  <div>{task.title}</div>
+                  <div>Created at: {new Date(task.created_at).toISOString().slice(0, 10)}</div>
+                </div>
                 <div className={s.rightOpt}>
+                <div className={s.taskDate}>Updated at: {new Date(task.updated_at).toISOString().slice(0, 10)}</div>
                   <div
                     className={
                       task.priority === "low"
