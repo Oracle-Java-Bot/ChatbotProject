@@ -1,0 +1,99 @@
+version: 0.1
+component: build
+timeoutInSeconds: 360
+runAs: root
+shell: bash
+failImmediatelyOnError: true
+
+env:
+  variables:
+    "JAVA_HOME" : "/usr/lib64/graalvm/graalvm-java17"
+
+  exportedVariables:
+    - BACK_IMAGE_NAME
+    - DOCKER_REGISTRY
+    - BUILDRUN_HASH
+    - JAVABOT_PDB_NAME
+    - OCI_REGION
+
+steps:
+# Defining our environment variables
+  - type: Command
+    name: "Define environment"
+    command: |
+      export BACK_IMAGE_NAME=`echo todolistapp-springboot`
+      echo "BACK_IMAGE_NAME: " ${BACK_IMAGE_NAME}
+
+      export DOCKER_REGISTRY=`echo mx-queretaro-1.ocir.io/axwws7xqgtyv/reacttodo/25e1r`
+      echo "DOCKER_REGISTRY: " ${DOCKER_REGISTRY}
+
+      export JAVABOT_PDB_NAME=`echo reacttodo25e1r`
+      echo "JAVABOT_PDB_NAME: " ${JAVABOT_PDB_NAME}
+
+      export OCI_REGION=`echo qro.ocir.io`
+      echo "OCI_REGION: " ${OCI_REGION}
+
+# Defining our unique "hashed" code from OCI BUILD ID
+  - type: Command
+    name: "Define unique image tag"
+    command: |
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_HASH: "$BUILDRUN_HASH
+
+# # Installing any dependencies
+#   - type: Command
+#     name: "Install yum"
+#     command: yum install -y curl
+
+  - type: Command
+    name: "Download Java 17"
+    command: |
+      cd ${OCI_PRIMARY_SOURCE_DIR};
+      if ! test -d ${OCI_PRIMARY_SOURCE_DIR}/graalvm-community-openjdk-17.0.9+9.1;
+      then
+        echo "downloading graalVM"
+        curl -sL https://github.com/graalvm/graalvm-ce-builds/releases/download/jdk-17.0.9/graalvm-community-jdk-17.0.9_linux-x64_bin.tar.gz | tar xz
+        ls
+      fi
+      echo "finished downloading graalVM"
+
+  - type: Command
+    name: "Install Java 17"
+    command: |
+      ${OCI_PRIMARY_SOURCE_DIR}/graalvm-community-openjdk-17.0.9+9.1/bin/gu install native-image
+  
+  - type: Command
+    name: "Set the Java path"
+    command: |
+      export JAVA_HOME=${OCI_PRIMARY_SOURCE_DIR}/graalvm-community-openjdk-17.0.9+9.1
+      export PATH=$JAVA_HOME/bin:$PATH
+
+# Checking everything is alright, mainly for debugging
+  - type: Command
+    name: "Environment check"
+    command: |
+      ls -la
+      java -version
+      mvn --version
+
+# Backend container building
+  - type: Command
+    name: "Clean and Package the Spring Boot Application"
+    timeOutInSeconds: 900
+    command: |
+      cd ${OCI_PRIMARY_SOURCE_DIR}/MtdrSpring/backend
+      mvn --no-transfer-progress clean package spring-boot::repackage
+
+  - type: Command
+    name: "Build backend image"
+    command: |
+      cd ${OCI_PRIMARY_SOURCE_DIR}/MtdrSpring/backend
+      docker build --platform=linux/aarch64 -f Dockerfile -t backend-image .
+      echo "Backend image built in aarch64"
+
+
+outputArtifacts:
+  - name: javabot
+    type: DOCKER_IMAGE
+    location: backend-image
+
