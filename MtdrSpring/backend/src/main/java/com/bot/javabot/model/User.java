@@ -20,8 +20,11 @@ public class User {
     @Column(name = "password")
     String password;
 
-    @Column(name = "team_id")
-    int team_id;
+    // @Column(name = "team_id")
+    // int team_id;
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @Column(name = "role")
     String role;
@@ -63,12 +66,12 @@ public class User {
         this.password = password;
     }
 
-    public int getTeam_id() {
-        return team_id;
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
+    public void setTeam_id(Team team) {
+        this.team = team;
     }
 
     public String getRole() {
@@ -86,7 +89,7 @@ public class User {
         ", name='" + name + '\'' +
         ", email='" + email + '\'' +
         ", password='" + password + '\'' +
-        ", team_id='" + team_id + '\'' +
+        ", team_id='" + team + '\'' +
         ", role='" + role +
         '}';
     }
