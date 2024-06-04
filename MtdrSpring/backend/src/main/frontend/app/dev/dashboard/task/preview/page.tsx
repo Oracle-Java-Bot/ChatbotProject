@@ -156,11 +156,17 @@ export default function Home() {
           <div className={s.fastFadeIn}> {tempTask?.notes}</div>
         </div>
       </div>
-
       <div
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
       >
+        <div className={`${s.doublebtn} !bg-black p-2`}>
+          <img
+            onClick={() => history.back()}
+            src="/icons/back.png"
+            className={`${s.backIcon} !ml-3 !mr-4`}
+          />
+
         <Link
           onClick={addTask}
           href="/dev/dashboard/task/created"
@@ -169,6 +175,32 @@ export default function Home() {
           Create Task
         </Link>
       </div>
+      </div>
     </div>
+
+/*
+
+      <div
+         Bottom Wrapper 
+        className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
+      >
+        <div className={`${s.doublebtn} !bg-black p-2`}>
+          <img
+            onClick={() => history.back()}
+            src="/icons/back.png"
+            className={`${s.backIcon} !ml-3 !mr-4`}
+          />
+
+          <Link
+            href={"/dev/dashboard/task/preview"}
+            onClick={addTask}
+            className={`${s.btn} ${s.custom} !bg-white !text-black`}
+          >
+            Preview Task
+          </Link>
+        </div>
+      </div>
+
+*/
   );
 }
