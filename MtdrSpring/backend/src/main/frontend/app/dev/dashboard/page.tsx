@@ -22,6 +22,10 @@ export default function Home() {
     team_id: number;
     role: string;
   }>();
+  const [userName, setUserName] = useState("");
+  const [userTeamId, setUserTeamId] = useState("");
+  const [userRole, setUserRole] = useState("");
+
 
   const [tasks, setTasks] = useState<
   {
@@ -63,6 +67,9 @@ export default function Home() {
 
           // Set user data from localStorage
           setUser(user);
+          setUserName(user.name || "");
+          setUserTeamId(user.team_id?.toString() || "");
+          setUserRole(user.role || "");
 
           // Set tasks data
           setTasks(data);
@@ -121,15 +128,11 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>
-          Welcome {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").name ?? "")}!
-        </div>{" "}
-        <div className={` text-gray-600 `}>
-          #Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}
-        </div>
+        <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
+        <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
       <div className={s.sFont}>
-        Role: {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").role ?? "")}
+        Role: {userRole}
       </div>
 
       <div className="flex justify-center gap-4 mt-4">
@@ -165,7 +168,6 @@ export default function Home() {
                   <div>Created at: {new Date(task.created_at).toISOString().slice(0, 10)}</div>
                 </div>
                 <div className={s.rightOpt}>
-                <div className={s.taskDate}>Updated at: {new Date(task.updated_at).toISOString().slice(0, 10)}</div>
                   <div
                     className={
                       task.priority === "low"
