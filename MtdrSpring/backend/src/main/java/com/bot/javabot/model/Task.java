@@ -1,6 +1,7 @@
 package com.bot.javabot.model;
 
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import javax.persistence.*;
 
 @Entity
@@ -50,6 +51,7 @@ public class Task {
     //taskService.save(task)
     @PrePersist
     protected void onCreate() {
+
         created_at = new Timestamp(System.currentTimeMillis());
         updated_at = new Timestamp(System.currentTimeMillis());
     }
