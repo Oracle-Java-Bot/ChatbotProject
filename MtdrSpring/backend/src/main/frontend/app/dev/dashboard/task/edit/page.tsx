@@ -173,6 +173,7 @@ export default function Home() {
             onChange={(e) => setDescription(e.target.value)}
             placeholder={currentTask?.description}
           />
+          {/* 
           <div className={s.cat}> Notes: </div>
           <textarea
             className={s.input}
@@ -180,6 +181,7 @@ export default function Home() {
             onChange={(e) => setNotes(e.target.value)}
             placeholder={currentTask?.notes}
           />
+          */}
           <div>
             <div className={s.cat}> Select Priority: </div>
             <select
