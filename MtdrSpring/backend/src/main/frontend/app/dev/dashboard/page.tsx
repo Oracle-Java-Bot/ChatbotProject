@@ -51,7 +51,7 @@ export default function Home() {
       name: string;
     };
   }[]
->([]);
+  >([]);
 
   useEffect(() => {
   const fetchData = async () => {
@@ -139,9 +139,10 @@ export default function Home() {
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
           Create Task
         </Link>
-
-        <Link href="" className={`${s.btn}   !bg-black hidden`}>
-          --- WIP ---
+      </div>
+      <div className="flex justify-center gap-4 mt-4">
+        <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
+          Create Stand up
         </Link>
       </div>
 
