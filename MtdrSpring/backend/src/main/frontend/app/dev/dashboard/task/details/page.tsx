@@ -7,6 +7,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useRouter } from "next/navigation";
 import { time } from "console";
+import axios from "axios";
 
 export default function Home() {
   const router = useRouter();
@@ -54,31 +55,29 @@ export default function Home() {
     }
   }, [user]);
 
-  /* EDIT TASK */
-
   /* CURRENT Task */
-  const [currTask, setCurrTask] = useState("0");
   const [currentTask, setCurrentTask] = useState<{
     id: number;
     title: string;
     description: string;
     priority: string;
     status: string;
+    developer_id: string;
+    completed_at: string;
     created_at: string;
     updated_at: string;
-    completed_at: string;
+    notes: string;
+    developer: {
+      id: number;
+      email: string;
+      team_id: number;
+      role: string;
+      name: string;
+    };
     team: {
       id: number;
       name: string;
     };
-    developer: {
-      id: number;
-      email: string;
-      password: string;
-      team_id: number;
-      role: string;
-    };
-    notes?: string;
   }>();
 
   useEffect(() => {
@@ -99,19 +98,21 @@ export default function Home() {
     }
   }, []);
 
-  /* EDIT TASK */
-  const editTask = () => {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id === Number.parseInt(currTask)) {
-          return {
-            ...task,
-            status: "completed",
-          };
-        }
-        return task;
-      })
-    );
+  /* COMPLETE TASK */
+  const completeTask = async () => {
+    try {
+      console.log("Completing task:", currentTask?.id);
+      const response = await axios.patch(`https://team12.kenscourses.com/tasks/${currentTask?.id}/complete`);
+      if (response.status === 200) {
+        console.log('Task completed successfully');
+        // Remove the completed task from localStorage
+        localStorage.removeItem('currentTask');
+      } else {
+        console.error('Failed to complete task');
+      }
+    } catch (error) {
+      console.error('Error completing task:', error);
+    }
   };
 
   useEffect(() => {
@@ -122,7 +123,7 @@ export default function Home() {
 
   useEffect(() => {
     if (activeIndex === 0) {
-      editTask();
+      completeTask();
       setTimeout(() => {
         router.push("/dev/dashboard/task/completed");
       }, 500);
