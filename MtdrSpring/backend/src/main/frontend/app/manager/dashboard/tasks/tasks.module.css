@@ -98,8 +98,10 @@
   align-items: center;
   justify-content: center;
   padding: 5px 10px;
-
   border-radius: var(--btn-border);
+  flex: 1; 
+  text-align: center; 
+  min-width: 70px; 
 }
 
 .selector {

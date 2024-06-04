@@ -40,8 +40,20 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: string;
-      notes: string;
+      created_at: string;
+      updated_at: string;
+      completed_at: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+        team_id: number;
+        role: string;
+    };
     }[]
   >([]);
 
