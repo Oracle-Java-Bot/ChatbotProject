@@ -171,10 +171,21 @@ export default function Home() {
           <div className={`${s.fastFadeIn} !text-gray-60"`}>
             {currentTask?.developer.email}
           </div>
+          <div className={`${s.fastFadeIn} !font-bold pt-4`}>
+            Description
+          </div>
           <div className={`${s.fastFadeIn} !pt-3`}>
             {currentTask?.description}
           </div>
-          <div className={`${s.fastFadeIn} !font-bold pt-3`}> Notes</div>
+          <div className={`${s.fastFadeIn} !font-bold pt-4`}>
+            Date
+          </div>
+          <div className={`${s.fastFadeIn} !text-gray-60`}>
+            Created at: {currentTask?.created_at ? new Date(currentTask.created_at).toISOString().slice(0, 10) : ''}
+          </div>
+          <div className={`${s.fastFadeIn} !text-gray-60`}>
+            Updated at: {currentTask?.created_at ? new Date(currentTask.created_at).toISOString().slice(0, 10) : ''}
+          </div>
           <div className={s.fastFadeIn}> {currentTask?.notes}</div>
         </div>
       </div>

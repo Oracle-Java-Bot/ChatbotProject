@@ -15,12 +15,14 @@ export default function Login() {
     try {
       const response = await axios.get(`https://team12.kenscourses.com/users/${email}/${encodeURIComponent(password)}`);
       const user = response.data;
-      console.log("User:", user);
-
       if (user) {
-        localStorage.setItem("user", JSON.stringify(user));
-        console.log("User logged in:", user);
-
+        // Remove the password from the user object
+        const { password, ...userWithoutPassword } = user;
+        console.log("User:", user);
+        // Store the user object without the password in localStorage
+        localStorage.setItem("user", JSON.stringify(userWithoutPassword));
+        
+        console.log("User logged in:", userWithoutPassword);
         if (user.role === "manager" && user.team_id !== null && user.team_id !== 0) {
           router.push("/manager/dashboard");
         } else if (user.role === "developer" && user.team_id !== null && user.team_id !== 0) {

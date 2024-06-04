@@ -18,6 +18,7 @@ export default function Home() {
   const [user, setUser] = useState<{
     id: number;
     email: string;
+    name: string;
     team_id: number;
     role: string;
   }>();
@@ -26,63 +27,79 @@ export default function Home() {
   {
     id: number;
     title: string;
+    description: string;
     priority: string;
     status: string;
+    developer_id: string;
+    completed_at: string;
+    created_at: string;
+    updated_at: string;
+    notes: string;
     developer: {
       id: number;
       email: string;
       team_id: number;
       role: string;
+      name: string;
     };
-    created_at: string;
-    updated_at: string;
+    team: {
+      id: number;
+      name: string;
+    };
   }[]
 >([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        if (typeof window !== 'undefined') {
-          const storedUser = localStorage.getItem('user');
-          if (storedUser) {
-            const user = JSON.parse(storedUser);
-            const userID = user.id;
-  
-            const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
-            const data = response.data;
-  
-            // Set user data
-            setUser({
-              id: data[0].developer.id,
-              email: data[0].developer.email,
-              team_id: data[0].developer.team_id,
-              role: data[0].developer.role,
-            });
-  
-            // Set tasks data
-            setTasks(data);
-            console.log("Data fetched:", data);
-          }
+  const fetchData = async () => {
+    try {
+      if (typeof window !== 'undefined') {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+          const user = JSON.parse(storedUser);
+          const userID = user.id;
+
+          const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
+          const data = response.data;
+
+          // Set user data from localStorage
+          setUser(user);
+
+          // Set tasks data
+          setTasks(data);
+          console.log("Data fetched:", data);
+          console.log("User stored:", user);
         }
-      } catch (error) {
-        console.error("Error fetching data:", error);
       }
-    };
-  
-    fetchData();
-  }, []);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
+
+  fetchData();
+}, []);
 
   /* CURRENT TASK */
   const updateTask = (task: {
     id: number;
     title: string;
+    description: string;
     priority: string;
     status: string;
+    developer_id: string;
+    completed_at: string;
+    created_at: string;
+    updated_at: string;
+    notes: string;
     developer: {
       id: number;
       email: string;
       team_id: number;
       role: string;
+      name: string;
+    };
+    team: {
+      id: number;
+      name: string;
     };
   }) => {
     if (typeof window !== 'undefined') {
@@ -138,7 +155,9 @@ export default function Home() {
             </Link>
           </div>
 
-          {tasks.map((task) => (
+          {tasks
+            .filter((task) => task.completed_at === null)
+            .map((task) => (
             <div key={task.id}>
               <div className={s.task}>
                 <div>
