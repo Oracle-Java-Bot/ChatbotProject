@@ -144,7 +144,7 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>Task Details</div>
-        <div className={"text-gray-600"}>#Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}</div>
+        <div className={"text-gray-600"}>#Team {currentTask?.team?.id}</div>
         
       </div>
 
@@ -168,17 +168,14 @@ export default function Home() {
               {currentTask?.priority}
             </div>
           </div>
-          <div className={`${s.fastFadeIn} !text-gray-60"`}>
-            {currentTask?.developer.email}
-          </div>
-          <div className={`${s.fastFadeIn} !text-gray-60"`}>
-            {currentTask?.developer.name}
-          </div>
+          <div className={`${s.fastFadeIn} !font-bold pt-3`}>Developer email</div>
+          <div className={`${s.fastFadeIn} !text-gray-60"`}>{currentTask?.developer.email}</div>
+          <div className={`${s.fastFadeIn} !font-bold pt-3`}>Developer name</div>
+          <div className={`${s.fastFadeIn} !text-gray-60"`}>{currentTask?.developer.name}</div>
+          <div className={`${s.fastFadeIn} !font-bold pt-3`}>Description</div>
           <div className={`${s.fastFadeIn} !pt-3`}>
             {currentTask?.description}
           </div>
-          <div className={`${s.fastFadeIn} !font-bold pt-3`}> Notes</div>
-          <div className={s.fastFadeIn}> {currentTask?.notes}</div>
         </div>
       </div>
 
