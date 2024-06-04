@@ -12,10 +12,10 @@ public class Standup {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int  id;
 
-    @Column(name = "progress")
+    @Column(name = "progress") //Lo que se hizo hoy
     String progress;
 
-    @Column(name = "plans")
+    @Column(name = "plans") //Lo que se hará mañana
     String plans;
 
     @Column(name = "challenge")
@@ -26,12 +26,28 @@ public class Standup {
 
     @Column(name = "time_standup")
     Timestamp time_standup;
-    
-    @Column(name = "team_id")
-    int team_id;
 
-    @Column(name = "developer_id")
-    int developer_id;
+    //Timestamp Management
+    //onCreate is called automatically by JPA when it's persisted (Saved)
+    //Standup.save(task)
+    @PrePersist
+    protected void onCreate() {
+        time_standup = new Timestamp(System.currentTimeMillis());
+    }
+
+    /*@Column(name = "team_id")
+   int team;*/
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Team team;
+    //Many tasks to one Team
+
+    /*@Column(name = "developer_id")
+    int developer;*/
+    @ManyToOne
+    @JoinColumn(name = "developer_id")
+    private User developer;
+    //Many developers to one team
 
     public int getId() {
         return id;
@@ -81,20 +97,22 @@ public class Standup {
         this.time_standup = time_standup;
     }
 
-    public int getTeam_id() {
-        return team_id;
+    //Team model datatype
+    public Team getTeam() {
+        return team;
     }
 
-    public void setTeam_id(int team_id) {
-        this.team_id = team_id;
+    public void setTeam(Team team) {
+        this.team = team;
     }
 
-    public int getDeveloper_id() {
-        return developer_id;
+    //User model datatype
+    public User getDeveloper() {
+        return developer;
     }
 
-    public void setDeveloper_id(int developer_id) {
-        this.developer_id = developer_id;
+    public void setDeveloper(User developer) {
+        this.developer = developer;
     }
 
     @Override
@@ -106,8 +124,8 @@ public class Standup {
         ", challenge='" + challenge + '\'' +
         ", support='" + support + '\'' +
         ", time_standup='" + time_standup + '\'' +
-        ", team_id='" + team_id + '\'' +
-        ", developer_id='" + developer_id + '\'' +
+        ", team_id='" + team + '\'' +
+        ", developer_id='" + developer + '\'' +
         '}';
     }
 }
