@@ -28,10 +28,10 @@ export default function Home() {
   /* CURRENT USER */
   const [user, setUser] = useState<{
     id: number;
+    email: string;
     name: string;
-    developer_id: string;
-    manager_id: string;
     team_id: number;
+    role: string;
   }>();
 
   useEffect(() => {
@@ -87,15 +87,6 @@ export default function Home() {
     }[]
   >([]);
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedTasksString = localStorage.getItem(
-        "team_" + user?.manager_id
-      );
-      setTasks(JSON.parse(storedTasksString || "[]"));
-    }
-  }, [user]);
-
   /* CURRENT TASK */
   const updateTask = (updatedTask: number) => {
     localStorage.setItem("currentTask", JSON.stringify(updatedTask));
@@ -118,7 +109,7 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {user?.name}!</div>
         <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
       </div>
-      <div className={s.sFont}>Manager</div>
+      <div className={s.sFont}>Role {user?.role}</div>
 
       <div className={` ${s.selector}`}>
         <div
@@ -149,10 +140,7 @@ export default function Home() {
         <div className={s.mainBody}>
         {active? // Render tasks that are not cancelled or completed when active is true
           tasks
-            .filter(
-              (task: { status: string }) =>
-                task.status !== "cancelled" && task.status !== "completed"
-            )
+          .filter((task: { status: string }) => task.status === "pending")
             .map(
               (task: {
                 id: number;
@@ -208,10 +196,7 @@ export default function Home() {
             )
         : // Render tasks that are cancelled or completed when active is false
           tasks
-            .filter(
-              (task: { status: string }) =>
-                task.status === "cancelled" || task.status === "completed"
-            )
+          .filter((task: { status: string }) => task.status !== "pending")
             .map(
               (task: {
                 id: number;
@@ -226,10 +211,10 @@ export default function Home() {
                 <div key={task.id}>
                   <div className={s.task}>
                     <div>
-                      <div>{task.title}</div>
-                      <div className="text-gray-500 text-sm mt-1">
-                        {task.developer.name} - {task.developer.email}
-                      </div>
+                        <div>{task.title}</div>
+                        <div className="text-gray-500 text-sm mt-1">
+                          {task.developer.name} - {task.developer.email}
+                        </div>
                     </div>
                     <div className={s.rightOpt}>
                     <div
