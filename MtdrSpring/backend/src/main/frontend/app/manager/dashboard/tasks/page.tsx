@@ -263,7 +263,13 @@ export default function Home() {
       <div
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
-      ></div>
+        
+      >
+        <Link href="/manager/dashboard" className={`${s.btn}  !bg-black`}>
+          Dashboard
+        </Link>
+        
+      </div>
     </div>
   );
 }
