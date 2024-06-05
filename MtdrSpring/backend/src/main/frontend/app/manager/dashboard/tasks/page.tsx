@@ -169,7 +169,7 @@ export default function Home() {
                     <div>
                       <div>{task.title}</div>
                       <div className="text-gray-500 text-sm mt-1">
-                        {task.developer.name} - {task.developer.email}
+                        {task?.developer?.name} - {task?.developer?.email}
                       </div>
                     </div>
                     <div className={s.rightOpt}>
