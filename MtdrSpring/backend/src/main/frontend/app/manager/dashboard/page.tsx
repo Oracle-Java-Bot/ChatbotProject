@@ -51,21 +51,29 @@ export default function Home() {
 
   /* TASK LIST */
   const [tasks, setTasks] = useState<
-    {
+  {
+    id: number;
+    title: string;
+    description: string;
+    priority: string;
+    status: string;
+    developer_id: string;
+    completed_at: string;
+    created_at: string;
+    updated_at: string;
+    notes: string;
+    developer: {
       id: number;
-      title: string;
-      priority: string;
-      status: string;
-      developer: {
-        id: number;
-        name: string;
-        email: string;
-        team_id: number;
-        role: string;
-      };
-      created_at: string;
-      updated_at: string;
-    }[]
+      email: string;
+      team_id: number;
+      role: string;
+      name: string;
+    };
+    team: {
+      id: number;
+      name: string;
+    };
+  }[]
   >([]);
 
   /* CURRENT TASK */
@@ -137,7 +145,9 @@ export default function Home() {
             </Link>
           </div>
 
-          {tasks.map((task) => (
+          {tasks
+          .filter((task) => task.completed_at === null || task.completed_at === undefined)
+          .map((task) => (
             <div key={task.id}>
               <div className={s.task}>
               <div>
