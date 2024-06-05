@@ -163,6 +163,11 @@
   display: relative;
 }
 
+.marginBottom {
+  margin-bottom: 15px; /* Ajusta el valor según tus necesidades */
+}
+
+
 /* Fade In */
 .fadeIn {
   animation-delay: 0.4s !important;

@@ -8,6 +8,8 @@ import "swiper/css";
 import { useRouter } from "next/navigation";
 import { time } from "console";
 import axios from "axios";
+import Link from "next/link";
+
 
 export default function Home() {
   const router = useRouter();
@@ -188,34 +190,36 @@ export default function Home() {
       </div>
 
       <div
-        /* Bottom Wrapper */
-        className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
-      >
-        <div className={s.sliderCont}>
-          <div className={s.float}>
-            <Swiper
-              onRealIndexChange={(element) =>
-                setActiveIndex(element.activeIndex)
-              }
-              className={s.slider}
-              spaceBetween={-100}
-              slidesPerView={1}
-              initialSlide={2}
-            >
-              <SwiperSlide className={s.completedCont}>
-                <div className={`${s.completedSlide}  !bg-black`} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
+  className={`${isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper} ${s.marginBottom}`}
+>
+  <Link href="/dev/dashboard" className={`${s.btn}  !bg-black`}>
+    Dashboard
+  </Link>
+</div>
 
-          <button className={`${s.btn}  ${s.sliderBtn}  !bg-black`}>
-            Slide To Complete
-          </button>
-        </div>
-      </div>
+<div className={s.sliderCont}>
+  <div className={s.float}>
+    <Swiper
+      onRealIndexChange={(element) => setActiveIndex(element.activeIndex)}
+      className={s.slider}
+      spaceBetween={-100}
+      slidesPerView={1}
+      initialSlide={2}
+    >
+      <SwiperSlide className={s.completedCont}>
+        <div className={`${s.completedSlide}  !bg-black`} />
+      </SwiperSlide>
+      <SwiperSlide>
+        <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
+      </SwiperSlide>
+    </Swiper>
+  </div>
+
+  <button className={`${s.btn}  ${s.sliderBtn}  !bg-black`}>
+    Slide To Complete
+  </button>
+</div>
+
     </div>
   );
 }
