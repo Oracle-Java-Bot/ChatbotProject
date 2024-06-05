@@ -29,15 +29,17 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (typeof window !== 'undefined') {
-          const storedUser = localStorage.getItem('user');
+        if (typeof window !== "undefined") {
+          const storedUser = localStorage.getItem("user");
           if (storedUser) {
             const user = JSON.parse(storedUser);
             const teamID = user.team_id;
-    
-            const response = await axios.get(`https://team12.kenscourses.com/tasks/team/${teamID}`);
+
+            const response = await axios.get(
+              `https://team12.kenscourses.com/tasks/team/${teamID}`
+            );
             const data = response.data;
-            
+
             // Set user data from localStorage
             setUser(user);
             setUserName(user.name || "");
@@ -46,9 +48,9 @@ export default function Home() {
             // Set tasks data
             setTasks(data);
             console.log("Data fetched:", data);
-            
+
             // Save tasks data to local storage
-            localStorage.setItem('tasks', JSON.stringify(data));
+            localStorage.setItem("tasks", JSON.stringify(data));
           }
         }
       } catch (error) {
@@ -60,29 +62,29 @@ export default function Home() {
 
   /* TASK LIST */
   const [tasks, setTasks] = useState<
-  {
-    id: number;
-    title: string;
-    description: string;
-    priority: string;
-    status: string;
-    developer_id: string;
-    completed_at: string;
-    created_at: string;
-    updated_at: string;
-    notes: string;
-    developer: {
+    {
       id: number;
-      email: string;
-      team_id: number;
-      role: string;
-      name: string;
-    };
-    team: {
-      id: number;
-      name: string;
-    };
-  }[]
+      title: string;
+      description: string;
+      priority: string;
+      status: string;
+      developer_id: string;
+      completed_at: string;
+      created_at: string;
+      updated_at: string;
+      notes: string;
+      developer: {
+        id: number;
+        email: string;
+        team_id: number;
+        role: string;
+        name: string;
+      };
+      team: {
+        id: number;
+        name: string;
+      };
+    }[]
   >([]);
 
   /* CURRENT TASK */
@@ -101,7 +103,7 @@ export default function Home() {
     created_at: string;
     updated_at: string;
   }) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("currentTask", JSON.stringify(task));
     }
   };
@@ -123,17 +125,11 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
         <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
-      <div className={s.sFont}>
-        Role: {userRole}
-      </div>
+      <div className={s.sFont}>Role: {userRole}</div>
 
       <div className="flex justify-center gap-4 mt-4">
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
-          Create Task
-        </Link>
-
-        <Link href="" className={`${s.btn}   !bg-black hidden`}>
-          --- WIP ---
+          Performance Review
         </Link>
       </div>
 
@@ -151,43 +147,53 @@ export default function Home() {
           </div>
 
           {tasks
-          .filter((task) => task.completed_at === null || task.completed_at === undefined)
-          .map((task) => (
-            <div key={task.id}>
-              <div className={s.task}>
-              <div>
-                <div>{task.title}</div>
-                <div>Created at: {new Date(task.created_at).toISOString().slice(0, 10)}</div>
-              </div>
-                <div className={s.rightOpt}>
-                  <div className={s.taskDate}>{task.developer.name}</div>
-                  <div
-                    className={
-                      task.priority === "low"
-                        ? `${s.priorityIndicator} bg-green-500`
-                        : task.priority === "medium"
-                        ? `${s.priorityIndicator}  bg-yellow-500 `
-                        : `${s.priorityIndicator} bg-red-500`
-                    }
-                  />
-                  <Link
-                    onClick={() => updateTask(task)}
-                    href="dashboard/task/edit"
-                  >
-                    <img className={s.icon} src="/icons/edit.png" />
-                  </Link>
-                  <Link
-                    onClick={() => updateTask(task)}
-                    href="dashboard/task/details"
-                  >
-                    <img className={s.icon} src="/icons/open.png" />
-                  </Link>
+            .filter(
+              (task) =>
+                task.completed_at === null || task.completed_at === undefined
+            )
+            .map((task) => (
+              <div key={task.id}>
+                <div className={s.task}>
+                  <div>
+                    <div>{task.title}</div>
+                    <div className={s.created}>
+                      Created:{" "}
+                      {new Date(task.created_at).toISOString().slice(0, 10)}
+                    </div>
+                  </div>
+                  <div className={s.rightOpt}>
+                    <div className={s.taskDev}>{task.developer.name}</div>
+                    <div
+                      className={
+                        task.priority === "low"
+                          ? `${s.priorityIndicator} bg-green-500`
+                          : task.priority === "medium"
+                          ? `${s.priorityIndicator}  bg-yellow-500 `
+                          : `${s.priorityIndicator} bg-red-500`
+                      }
+                    />
+                    <div
+                      className={
+                        task.status === "completed"
+                          ? `${s.priorityIndicator} bg-green-500 ml-1`
+                          : task.status === "pending"
+                          ? `${s.priorityIndicator}  bg-yellow-500 ml-1 `
+                          : `${s.priorityIndicator} bg-red-500 ml-1`
+                      }
+                    />
+
+                    <Link
+                      onClick={() => updateTask(task)}
+                      href="dashboard/task/details"
+                    >
+                      <img className={s.icon} src="/icons/open.png" />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
-      </div> 
+      </div>
 
       <div
         /* Bottom Wrapper */
