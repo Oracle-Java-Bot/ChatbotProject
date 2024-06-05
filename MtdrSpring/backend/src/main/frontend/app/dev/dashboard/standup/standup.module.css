@@ -1,0 +1,96 @@
+/* Top Title*/
+.titleFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--M);
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.topTitle {
+  font-size: var(--LG);
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+/* Main Body*/
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 23px;
+  margin: 0 auto;
+  width: 100%;
+  font-size: var(--M);
+  color: var(--white);
+  background-color: var(--black);
+  border-radius: var(--btn-border);
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.mainBody {
+  width: 100%;
+  height: 100%;
+  background-color: var(--almostwhite);
+  border-radius: var(--btn-border);
+  padding: 20px 25px;
+  font-size: var(--S);
+  box-shadow: var(--shortglow);
+}
+
+/* Create */
+
+.createBody {
+  width: 100%;
+  height: 100%;
+  border-radius: var(--btn-border);
+  padding: 10px 0px;
+  font-size: var(--S);
+}
+.cat {
+  font-weight: 500;
+  font-size: var(--S);
+  animation: fadeIn 1s ease-in-out;
+}
+.input {
+  width: 100%;
+  background-color: var(--lightergrey);
+  border-radius: var(--btn-border);
+  padding: 10px;
+  margin: 10px 0px;
+  font-size: var(--S);
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+.doublebtn {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: calc(var(--btn-border) + 5px);
+  animation: fadeIn 1.4s ease-in-out;
+}
+.custom {
+  padding: 15px;
+}
+
+.backIcon {
+  height: 33px;
+  width: 33px;
+  filter: invert(1);
+  cursor: pointer;
+}
+
+/* Check In */
+
+.checkInRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 40px 0px;
+}
+
+.checkInBtn {
+  padding: 10px 20px;
+  background-color: var(--lightergrey);
+  border-radius: var(--btn-border);
+}

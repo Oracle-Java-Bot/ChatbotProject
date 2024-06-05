@@ -139,10 +139,7 @@ export default function Home() {
           Create Task
         </Link>
 
-        <Link
-          href="dashboard/task/create"
-          className={`${s.btn}  !bg-black !ml-2 `}
-        >
+        <Link href="dashboard/standup" className={`${s.btn}  !bg-black !ml-2 `}>
           Create Stand up
         </Link>
       </div>
