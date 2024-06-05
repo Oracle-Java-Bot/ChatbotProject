@@ -26,64 +26,65 @@ export default function Home() {
   const [userTeamId, setUserTeamId] = useState("");
   const [userRole, setUserRole] = useState("");
 
-
   const [tasks, setTasks] = useState<
-  {
-    id: number;
-    title: string;
-    description: string;
-    priority: string;
-    status: string;
-    developer_id: string;
-    completed_at: string;
-    created_at: string;
-    updated_at: string;
-    notes: string;
-    developer: {
+    {
       id: number;
-      email: string;
-      team_id: number;
-      role: string;
-      name: string;
-    };
-    team: {
-      id: number;
-      name: string;
-    };
-  }[]
+      title: string;
+      description: string;
+      priority: string;
+      status: string;
+      developer_id: string;
+      completed_at: string;
+      created_at: string;
+      updated_at: string;
+      notes: string;
+      developer: {
+        id: number;
+        email: string;
+        team_id: number;
+        role: string;
+        name: string;
+      };
+      team: {
+        id: number;
+        name: string;
+      };
+    }[]
   >([]);
 
   useEffect(() => {
-  const fetchData = async () => {
-    try {
-      if (typeof window !== 'undefined') {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-          const user = JSON.parse(storedUser);
-          const userID = user.id;
+    const fetchData = async () => {
+      try {
+        if (typeof window !== "undefined") {
+          const storedUser = localStorage.getItem("user");
+          if (storedUser) {
+            const user = JSON.parse(storedUser);
+            const userID = user.id;
 
-          const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
-          const data = response.data;
+            const response = await axios.get(
+              `https://team12.kenscourses.com/tasks/developer/${userID}`
+            );
+            const data = response.data;
 
-          // Set user data from localStorage
-          setUser(user);
-          setUserName(user.name || "");
-          setUserTeamId(user.team_id?.toString() || "");
-          setUserRole(user.role || "");
+            // Set user data from localStorage
+            setUser(user);
+            setUserName(user.name || "");
+            setUserTeamId(user.team_id?.toString() || "");
+            setUserRole(user.role || "");
 
-          // Set tasks data
-          setTasks(data);
-          console.log("Data fetched:", data);
-          console.log("User stored:", user);
+            // Set tasks data
+            setTasks(data);
+            console.log("Data fetched:", data);
+            console.log("User stored:", user);
+          }
         }
+      } catch (error) {
+        console.error("Error fetching data:", error);
       }
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-  };
+    };
 
-  fetchData();
-}, []);
+    fetchData();
+  }, []);
 
   /* CURRENT TASK */
   const updateTask = (task: {
@@ -109,7 +110,7 @@ export default function Home() {
       name: string;
     };
   }) => {
-    if (typeof window !== 'undefined') {
+    if (typeof window !== "undefined") {
       localStorage.setItem("currentTask", JSON.stringify(task));
     }
   };
@@ -131,17 +132,17 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
         <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
-      <div className={s.sFont}>
-        Role: {userRole}
-      </div>
+      <div className={s.sFont}>Role: {userRole}</div>
 
-      <div className="flex justify-center gap-4 mt-4">
+      <div className={s.selection}>
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
           Create Task
         </Link>
-      </div>
-      <div className="flex justify-center gap-4 mt-4">
-        <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
+
+        <Link
+          href="dashboard/task/create"
+          className={`${s.btn}  !bg-black !ml-2 `}
+        >
           Create Stand up
         </Link>
       </div>
@@ -160,42 +161,48 @@ export default function Home() {
           </div>
 
           {tasks
-            .filter((task) => task.completed_at === null || task.completed_at === undefined)
+            .filter(
+              (task) =>
+                task.completed_at === null || task.completed_at === undefined
+            )
             .map((task) => (
-            <div key={task.id}>
-              <div className={s.task}>
-                <div>
-                  <div>{task.title}</div>
-                  <div>Created at: {new Date(task.created_at).toISOString().slice(0, 10)}</div>
-                </div>
-                <div className={s.rightOpt}>
-                  <div
-                    className={
-                      task.priority === "low"
-                        ? `${s.priorityIndicator} bg-green-500`
-                        : task.priority === "medium"
-                        ? `${s.priorityIndicator}  bg-yellow-500 `
-                        : `${s.priorityIndicator} bg-red-500`
-                    }
-                  />
-                  <Link
-                    onClick={() => updateTask(task)}
-                    href="dashboard/task/edit"
-                  >
-                    <img className={s.icon} src="/icons/edit.png" />
-                  </Link>
-                  <Link
-                    onClick={() => updateTask(task)}
-                    href="dashboard/task/details"
-                  >
-                    <img className={s.icon} src="/icons/open.png" />
-                  </Link>
+              <div key={task.id}>
+                <div className={s.task}>
+                  <div>
+                    <div>{task.title}</div>
+                    <div>
+                      Created at:{" "}
+                      {new Date(task.created_at).toISOString().slice(0, 10)}
+                    </div>
+                  </div>
+                  <div className={s.rightOpt}>
+                    <div
+                      className={
+                        task.priority === "low"
+                          ? `${s.priorityIndicator} bg-green-500`
+                          : task.priority === "medium"
+                          ? `${s.priorityIndicator}  bg-yellow-500 `
+                          : `${s.priorityIndicator} bg-red-500`
+                      }
+                    />
+                    <Link
+                      onClick={() => updateTask(task)}
+                      href="dashboard/task/edit"
+                    >
+                      <img className={s.icon} src="/icons/edit.png" />
+                    </Link>
+                    <Link
+                      onClick={() => updateTask(task)}
+                      href="dashboard/task/details"
+                    >
+                      <img className={s.icon} src="/icons/open.png" />
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
         </div>
-      </div> 
+      </div>
 
       <div
         /* Bottom Wrapper */

@@ -99,6 +99,13 @@
 
   border-radius: 50%;
 }
+
+.selection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  animation: fadeIn 0.8s ease-in-out;
+}
 @keyframes fadeIn {
   from {
     opacity: 0%;
