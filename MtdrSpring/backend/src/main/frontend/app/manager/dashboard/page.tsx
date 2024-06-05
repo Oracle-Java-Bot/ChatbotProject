@@ -18,9 +18,13 @@ export default function Home() {
   const [user, setUser] = useState<{
     id: number;
     email: string;
+    name: string;
     team_id: number;
     role: string;
   }>();
+  const [userName, setUserName] = useState("");
+  const [userTeamId, setUserTeamId] = useState("");
+  const [userRole, setUserRole] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,7 +37,12 @@ export default function Home() {
     
             const response = await axios.get(`https://team12.kenscourses.com/tasks/team/${teamID}`);
             const data = response.data;
-    
+            
+            // Set user data from localStorage
+            setUser(user);
+            setUserName(user.name || "");
+            setUserTeamId(user.team_id?.toString() || "");
+            setUserRole(user.role || "");
             // Set tasks data
             setTasks(data);
             console.log("Data fetched:", data);
