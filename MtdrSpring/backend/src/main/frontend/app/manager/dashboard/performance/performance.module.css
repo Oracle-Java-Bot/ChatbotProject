@@ -1,0 +1,34 @@
+.titleFlex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--M);
+  animation: fadeIn 0.8s ease-in-out;
+}
+.topTitle {
+  font-size: var(--LG);
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
+.mainBody {
+  width: 100%;
+  height: 100%;
+  background-color: var(--almostwhite);
+  border-radius: var(--btn-border);
+  padding: 20px 25px;
+  font-size: var(--S);
+  box-shadow: var(--shortglow);
+}
+
+.standup {
+  padding: 15px 15px;
+  margin: 10px 0;
+  background-color: var(--white);
+  box-shadow: var(--shortglow);
+  border-radius: calc(var(--btn-border) - 3px);
+  animation: fadeIn 1.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
