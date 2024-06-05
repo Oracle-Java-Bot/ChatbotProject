@@ -160,7 +160,7 @@ export default function Home() {
           </div>
 
           {tasks
-            .filter((task) => task.completed_at === null)
+            .filter((task) => task.completed_at === null || task.completed_at === undefined)
             .map((task) => (
             <div key={task.id}>
               <div className={s.task}>
