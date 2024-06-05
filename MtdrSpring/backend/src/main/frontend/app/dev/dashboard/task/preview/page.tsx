@@ -81,8 +81,7 @@ export default function Home() {
         const response = await axios.post("https://team12.kenscourses.com/tasks", {
         ...tempTask,
         team: {
-        id: user?.team_id,
-        name: "Equipo Super Chido"
+        id: user?.team_id
         },
         developer: {
           id: user?.id,
