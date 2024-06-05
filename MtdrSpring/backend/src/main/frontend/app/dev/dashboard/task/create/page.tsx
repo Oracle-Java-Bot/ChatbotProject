@@ -129,12 +129,14 @@ export default function Home() {
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+          {/* 
           <div className={s.cat}> Notes: </div>
           <textarea
             className={s.input}
             value={notes}
             onChange={(e) => setNotes(e.target.value)}
           />
+          */}
           <div>
             <div className={s.cat}> Select Priority: </div>
             <select

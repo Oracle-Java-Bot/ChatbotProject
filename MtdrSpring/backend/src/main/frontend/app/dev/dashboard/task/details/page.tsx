@@ -21,9 +21,10 @@ export default function Home() {
   /* CURRENT USER */
   const [user, setUser] = useState<{
     id: number;
+    email: string;
     name: string;
-    developer_id: string;
-    manager_id: string;
+    team_id: number;
+    role: string;
   }>();
 
   useEffect(() => {
@@ -49,7 +50,7 @@ export default function Home() {
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.developer_id
+        "team_" + user?.team_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
@@ -115,10 +116,6 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    localStorage.setItem("team_" + user?.developer_id, JSON.stringify(tasks));
-  }, [tasks]);
-
   const [activeIndex, setActiveIndex] = useState(1);
 
   useEffect(() => {
@@ -145,7 +142,7 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>Task Details</div>
-        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
       <div

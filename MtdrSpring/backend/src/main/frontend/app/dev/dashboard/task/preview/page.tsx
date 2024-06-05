@@ -149,9 +149,10 @@ export default function Home() {
           <div className={`${s.fastFadeIn} !text-gray-60"`}>
             {tempTask?.developer_id == user?.developer_id ? user?.name : ""}
           </div>
+          <div className={`${s.fastFadeIn} !font-bold pt-3`}>Description: </div>
           <div className={`${s.fastFadeIn} !pt-3`}>{tempTask?.description}</div>
-          <div className={`${s.fastFadeIn} !font-bold pt-3`}> Notes</div>
-          <div className={s.fastFadeIn}> {tempTask?.notes}</div>
+          {/*<div className={`${s.fastFadeIn} !font-bold pt-3`}> Notes</div>
+          <div className={s.fastFadeIn}> {tempTask?.notes}</div>*/}
         </div>
       </div>
       <div

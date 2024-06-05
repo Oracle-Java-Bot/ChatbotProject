@@ -90,8 +90,18 @@ export default function Home() {
   
 
   /* CURRENT TASK */
-  const updateTask = (updatedTask: number) => {
-    localStorage.setItem("currentTask", JSON.stringify(updatedTask));
+  /* CURRENT TASK */
+const updateTask = (task: {
+  id: number;
+  title: string;
+  priority: string;
+  status: string;
+  developer: {
+    name: string;
+    email: string;
+  };
+  }) => {
+    localStorage.setItem("currentTask", JSON.stringify(task));
   };
 
   return (
@@ -255,7 +265,7 @@ export default function Home() {
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
         
       >
-        <Link href="/manager/dashboard" className={`${s.btn}  !bg-black`}>
+        <Link href="/dev/dashboard" className={`${s.btn}  !bg-black`}>
           Dashboard
         </Link>
         
