@@ -65,7 +65,7 @@ export default function Home() {
             className={s.input}
             value={""}
             onChange={(e) => {}}
-            placeholder={"placeholder"}
+            placeholder={"Write here the things stopping you from progressing."}
           />
           {/* 
           <div className={s.cat}> Notes: </div>
