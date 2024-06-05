@@ -71,6 +71,7 @@
   display: flex;
   align-items: center;
   animation: fadeIn 1.6s ease-in-out;
+  flex-shrink: 0;
 }
 
 .icon {
@@ -99,9 +100,11 @@
   justify-content: center;
   padding: 5px 10px;
   border-radius: var(--btn-border);
-  flex: 1; 
-  text-align: center; 
-  min-width: 70px; 
+  flex: 1;
+  text-align: center;
+  min-width: 70px;
+  width: 70px;
+  margin-left: 5px;
 }
 
 .selector {
@@ -128,6 +131,19 @@
 .selected {
   background-color: var(--lightgrey);
   transition: 0.3s;
+}
+
+.bottomBtn {
+  width: calc(100% - 40px);
+  margin: auto;
+  bottom: 20px;
+  color: white;
+  text-align: center;
+  font-size: var(--S);
+  border-radius: var(--btn-border);
+  padding: 10px 0;
+
+  position: absolute;
 }
 
 .left {
