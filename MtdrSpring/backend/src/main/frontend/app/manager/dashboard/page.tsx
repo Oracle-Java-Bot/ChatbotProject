@@ -120,15 +120,11 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>
-          Welcome {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").name ?? "")}!
-        </div>{" "}
-        <div className={` text-gray-600 `}>
-          #Team {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").team_id ?? "")}
-        </div>
+        <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
+        <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
       <div className={s.sFont}>
-        Role: {typeof window !== 'undefined' && (JSON.parse(localStorage.getItem("user") ?? "{}").role ?? "")}
+        Role: {userRole}
       </div>
 
       <div className="flex justify-center gap-4 mt-4">
