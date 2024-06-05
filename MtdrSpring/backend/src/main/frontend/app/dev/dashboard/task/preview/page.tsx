@@ -124,7 +124,7 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>Preview Task</div>{" "}
-        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
       <div
