@@ -56,7 +56,7 @@ export default function Home() {
           </div>
 
           <div className={s.checkInRow}>
-            <div> Let's start the day! </div>
+            <div> Lets start the day! </div>
             <div className={s.checkInBtn}> Check-In</div>
           </div>
 
