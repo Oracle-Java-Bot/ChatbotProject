@@ -13,7 +13,7 @@ export default function Login() {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.get(`https://team12.kenscourses.com/users/${email}/${encodeURIComponent(password)}`);
+      const response = await axios.get(`http://localhost:8080/users/${email}/${encodeURIComponent(password)}`);
       const user = response.data;
       if (user) {
         // Remove the password from the user object

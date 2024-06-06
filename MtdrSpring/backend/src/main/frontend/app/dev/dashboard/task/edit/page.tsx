@@ -103,7 +103,7 @@ export default function Home() {
   const editTask = async () => {
     try {
       console.log("Editing task: ", currentTask);
-      const response = await axios.put(`https://team12.kenscourses.com/tasks/${currentTask?.id}`, {
+      const response = await axios.put(`http://localhost:8080/tasks/${currentTask?.id}`, {
         title: title,
         description: description,
         priority: priority,

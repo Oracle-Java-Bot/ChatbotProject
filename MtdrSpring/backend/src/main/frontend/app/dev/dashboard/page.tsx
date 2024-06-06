@@ -62,7 +62,7 @@ export default function Home() {
             const userID = user.id;
 
             const response = await axios.get(
-              `https://team12.kenscourses.com/tasks/developer/${userID}`
+              `http://localhost:8080/tasks/developer/${userID}`
             );
             const data = response.data;
 
