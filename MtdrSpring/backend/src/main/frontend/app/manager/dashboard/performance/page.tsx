@@ -49,17 +49,7 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const teamID = user.team_id;
 
-            const response = await axios.get(
-              `https://team12.kenscourses.com/tasks/team/${teamID}`
-            );
-            const data = response.data;
-
-            // Set tasks data
-            setTasks(data);
-            console.log("Data fetched:", data);
-
-            // Save tasks data to local storage
-            localStorage.setItem("tasks", JSON.stringify(data));
+            
           }
         }
       } catch (error) {
