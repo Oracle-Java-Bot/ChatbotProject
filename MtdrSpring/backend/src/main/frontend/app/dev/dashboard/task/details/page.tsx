@@ -104,7 +104,7 @@ export default function Home() {
   const completeTask = async () => {
     try {
       console.log("Completing task:", currentTask?.id);
-      const response = await axios.patch(`http://localhost:8080/tasks/${currentTask?.id}/complete`);
+      const response = await axios.patch(`https://team12.kenscourses.com/tasks/${currentTask?.id}/complete`);
       if (response.status === 200) {
         console.log('Task completed successfully');
         // Remove the completed task from localStorage

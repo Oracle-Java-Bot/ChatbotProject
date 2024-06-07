@@ -64,7 +64,7 @@ export default function Home() {
             console.log("Stored User:", user); // debugging
 
             const response = await axios.get(
-              `http://localhost:8080/tasks/developer/${userID}`
+              `https://team12.kenscourses.com/tasks/developer/${userID}`
             );
             const data = response.data;
 
