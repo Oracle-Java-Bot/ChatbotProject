@@ -94,7 +94,7 @@ export default function Home() {
     if (tempTask) {
       try {
         //ONCE WE REDEPLOY WE CAN USE TEAM12.KENSCOURSES.COM
-        const response = await axios.post("http://localhost:8080/tasks", {
+        const response = await axios.post("https://team12.kenscourses.com/tasks", {
         ...tempTask,
         team: {
         id: user?.team_id

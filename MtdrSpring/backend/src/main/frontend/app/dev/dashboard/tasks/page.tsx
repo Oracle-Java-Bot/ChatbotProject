@@ -49,7 +49,7 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const userID = user.id;
   
-            const response = await axios.get(`http://localhost:8080/tasks/developer/${userID}`);
+            const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
             const data = response.data;
   
             // Set user data from localStorage
