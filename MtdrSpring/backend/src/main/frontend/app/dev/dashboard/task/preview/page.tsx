@@ -20,8 +20,8 @@ export default function Home() {
     name: string;
     email: string;
     password: string;
-    developer_id: number;
-    manager_id: string;
+    //developer_id: number;
+    //manager_id: string;
     team_id: number; 
     role: string;
   }>();
@@ -42,15 +42,23 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: number;
-      notes: string;
+      created_at: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
     }[]
   >([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.developer_id
+        "team_" + user?.team_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
@@ -59,12 +67,20 @@ export default function Home() {
   /* TEMP TASK */
   const [tempTask, setTempTask] = useState<{
     id: number;
-    title: string;
-    description: string;
-    priority: string;
-    status: string;
-    developer_id: number;
-    notes: string;
+      title: string;
+      description: string;
+      priority: string;
+      status: string;
+      created_at: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
   }>();
 
   useEffect(() => {
@@ -105,7 +121,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    localStorage.setItem("team_" + user?.developer_id, JSON.stringify(tasks));
+    localStorage.setItem("team_" + user?.team_id, JSON.stringify(tasks));
   }, [tasks]);
 
   return (
@@ -147,7 +163,7 @@ export default function Home() {
             </div>
           </div>
           <div className={`${s.fastFadeIn} !text-gray-60"`}>
-            {tempTask?.developer_id == user?.developer_id ? user?.name : ""}
+            {tempTask?.developer.id == user?.id ? user?.name : ""}
           </div>
           <div className={`${s.fastFadeIn} !font-bold pt-3`}>Description: </div>
           <div className={`${s.fastFadeIn} !pt-3`}>{tempTask?.description}</div>

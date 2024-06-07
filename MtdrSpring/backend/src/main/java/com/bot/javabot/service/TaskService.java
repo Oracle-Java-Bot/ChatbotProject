@@ -82,7 +82,7 @@ public class TaskService {
     }
 
 
-    //NO USAGE - handle a task completion
+    //handle a task completion
     public Task completeTask(int taskId) {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         if (optionalTask.isPresent()) {
@@ -100,7 +100,7 @@ public class TaskService {
         Optional<Task> optionalTask = taskRepository.findById(taskId);
         if (optionalTask.isPresent()) {
             Task task = optionalTask.get();
-            task.setStatus("ongoing");
+            task.setStatus("pending");
             task.setCompleted_at(null);
             return taskRepository.save(task);
         } else {

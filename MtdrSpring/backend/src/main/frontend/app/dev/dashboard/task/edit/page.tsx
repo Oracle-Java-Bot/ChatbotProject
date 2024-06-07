@@ -18,8 +18,8 @@ export default function Home() {
     name: string;
     email: string;
     password: string;
-    developer_id: number;
-    manager_id: string;
+    //developer_id: number;
+    //manager_id: string;
     team_id: number;
     role: string;
   }>();
@@ -38,25 +38,34 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: string;
-      notes: string;
+      created_at: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
+      //notes: string;
     }[]
   >([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.developer_id
+        "team_" + user?.team_id
       );
       const parsedTasks = JSON.parse(storedTasksString || "[]");
       setTasks(parsedTasks);
-      localStorage.setItem("team_" + user?.developer_id, JSON.stringify(parsedTasks));
+      localStorage.setItem("team_" + user?.team_id, JSON.stringify(parsedTasks));
     }
-  }, [user?.developer_id]);
+  }, [user?.team_id]);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [notes, setNotes] = useState("");
+  //const [notes, setNotes] = useState("");
   const [priority, setPriority] = useState("");
 
   const [currentTask, setCurrentTask] = useState<{
@@ -91,7 +100,7 @@ export default function Home() {
         setCurrentTask(parsedTask);
         setTitle(parsedTask.title || "");
         setDescription(parsedTask.description || "");
-        setNotes(parsedTask.notes || "");
+        //setNotes(parsedTask.notes || "");
         setPriority(parsedTask.priority || "");
         console.log("Current Task:", parsedTask);
       } else {

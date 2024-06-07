@@ -4,6 +4,7 @@ import Image from "next/image";
 import r from "../../../../responsive.module.css";
 import s from "../task.module.css";
 import Link from "next/link";
+import Team from "@/app/login/team/page";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -18,10 +19,10 @@ export default function Home() {
     id: number;
     name: string;
     email: string;
-    password: string;
-    developer_id: number;
-    manager_id: string;
-    team_id: number; 
+    //password: string;
+    //developer_id: number;
+    //manager_id: string;
+    team_id: number;
     role: string;
   }>();
 
@@ -40,15 +41,21 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: number;
-      notes: string;
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+        team_id: number;
+      };
+      team: { id: number };
+      //notes: string;
     }[]
   >([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_id" + user?.developer_id
+        "team_id" + user?.team_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
@@ -63,20 +70,31 @@ export default function Home() {
     id: number;
     title: string;
     description: string;
-    developer_id: number;
-    notes: string;
     priority: string;
+    status: string;
+    developer: { id: number; name: string; email: string; team_id: number };
+    team: { id: number};
+    //developer_id: number;
+    //notes: string;
+    
   }>();
 
   const addTask = () => {
+    
     const newTask = {
       id: tasks.length + 1,
       title: title,
       description: description,
       priority: priority,
       status: "pending",
-      developer_id: user?.id || 0,
-      notes: notes,
+      developer: {  
+        id: user?.id || 0, 
+        name: user?.name || '', 
+        email: user?.email || '', 
+        team_id: user?.team_id || 0 
+      },
+      team: { id: user?.team_id || 0},
+      //notes: notes,
     };
 
     setTempTask(newTask);

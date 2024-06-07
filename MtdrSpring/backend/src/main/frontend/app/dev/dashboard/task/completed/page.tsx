@@ -16,11 +16,14 @@ export default function Home() {
   const trueCenter = false;
 
   /* CURRENT USER */
+
+  //there where developer_id and manager_id
   const [user, setUser] = useState<{
     id: number;
     name: string;
-    developer_id: number;
-    manager_id: string;
+    email: string;
+    team_id: number;
+    role: string;
   }>();
 
   useEffect(() => {
@@ -38,15 +41,25 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: string;
-      notes: string;
+      developer: {
+        id: number;
+        email: string;
+        team_id: number;
+        role: string;
+        name: string;
+      };
+      team: {
+        id: number;
+        name: string;
+      };
+      //notes: string;
     }[]
   >([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.developer_id
+        "team_" + user?.team_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
@@ -60,8 +73,18 @@ export default function Home() {
     description: string;
     priority: string;
     status: string;
-    developer_id: string;
-    notes: string;
+    developer: {
+      id: number;
+      email: string;
+      team_id: number;
+      role: string;
+      name: string;
+    };
+    team: {
+      id: number;
+      name: string;
+    };
+    //notes: string;
   }>();
 
   useEffect(() => {
@@ -90,7 +113,7 @@ export default function Home() {
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
         <div className={`${s.topTitle} font-bold`}>Preview Task</div>{" "}
-        <div className={"text-gray-600"}>#Team {user?.developer_id}</div>
+        <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
       <div

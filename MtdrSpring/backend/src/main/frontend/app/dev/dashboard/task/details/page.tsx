@@ -44,8 +44,17 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: string;
-      notes: string;
+      created_at: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
+      //notes: string;
     }[]
   >([]);
 
@@ -65,21 +74,11 @@ export default function Home() {
     description: string;
     priority: string;
     status: string;
-    developer_id: string;
-    completed_at: string;
     created_at: string;
-    updated_at: string;
-    notes: string;
     developer: {
       id: number;
+      name: string;
       email: string;
-      team_id: number;
-      role: string;
-      name: string;
-    };
-    team: {
-      id: number;
-      name: string;
     };
   }>();
 
@@ -148,7 +147,7 @@ export default function Home() {
       </div>
 
       <div
-        /* Main Body */ className={
+        /* Main Body */ /*quité notes*/ className={
           isFull ? `${r.body} ${r.full}` : `${r.body} ${r.fit}`
         }
       >
@@ -185,7 +184,6 @@ export default function Home() {
           <div className={`${s.fastFadeIn} !text-gray-60`}>
             Updated at: {currentTask?.created_at ? new Date(currentTask.created_at).toISOString().slice(0, 10) : ''}
           </div>
-          <div className={s.fastFadeIn}> {currentTask?.notes}</div>
         </div>
       </div>
 

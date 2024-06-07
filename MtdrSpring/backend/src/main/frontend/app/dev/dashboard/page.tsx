@@ -61,6 +61,8 @@ export default function Home() {
             const user = JSON.parse(storedUser);
             const userID = user.id;
 
+            console.log("Stored User:", user); // debugging
+
             const response = await axios.get(
               `http://localhost:8080/tasks/developer/${userID}`
             );
@@ -69,7 +71,13 @@ export default function Home() {
             // Set user data from localStorage
             setUser(user);
             setUserName(user.name || "");
-            setUserTeamId(user.team_id?.toString() || "");
+
+            console.log("User Team ID:", user.team_id);
+            
+            //setUserTeamId(user?.team_id.toString() || "");
+            const teamId = user.team_id !== undefined ? user.team_id.toString() : "404";
+            setUserTeamId(teamId);
+            
             setUserRole(user.role || "");
 
             // Set tasks data

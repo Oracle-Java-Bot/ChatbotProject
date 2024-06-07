@@ -14,9 +14,11 @@ public class Team {
     @Column(name = "name")
     String name;
 
+
     //MappedBy = The relationship is owned by Task Entity; mapped by "team" field in Task
     @OneToMany(mappedBy = "team")
     private List<Task> tasks;
+
 
     public int getId() {
         return id;

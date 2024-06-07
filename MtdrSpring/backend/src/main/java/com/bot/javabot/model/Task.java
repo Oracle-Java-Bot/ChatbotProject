@@ -157,8 +157,8 @@ public class Task {
         ", created_at='" + created_at + '\'' +
         ", updated_at='" + updated_at + '\'' +
         ", completed_at='" + completed_at + '\'' +
-        ", team_id='" + team + '\'' +
-        ", developer_id='" + developer +
+        ", team='" + team + '\'' +
+        ", developer='" + developer +
         '}';
     }
 

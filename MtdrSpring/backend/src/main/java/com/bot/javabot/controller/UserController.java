@@ -48,8 +48,10 @@ public class UserController {
     public ResponseEntity<User> getUserByEmailAndPassword(@PathVariable("email") String email, @PathVariable("password") String password){
         User user = userService.getUserByEmailAndPassword(email, password);
         return new ResponseEntity<>(user, HttpStatus.OK);
+
     }
 
+    /*
     //GET team's name
     @GetMapping(value = "/users/{id}/team_name")
     public ResponseEntity<String> getUserTeamName(@PathVariable int id){
@@ -63,5 +65,5 @@ public class UserController {
         } catch (UserNotFoundException e){
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
 }

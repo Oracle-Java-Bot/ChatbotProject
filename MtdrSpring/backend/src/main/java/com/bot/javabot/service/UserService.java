@@ -38,6 +38,8 @@ public class UserService {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
+
+    /*
     //GET team's name
     public String getTeamNameByUserId(int userId){
         Optional<User> optionalUser = userRepository.findById(userId);
@@ -48,5 +50,5 @@ public class UserService {
         } else {
             throw new UserNotFoundException("User not found with ID: " + userId);
         }
-    }
+    }*/
 }

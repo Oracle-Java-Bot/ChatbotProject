@@ -21,8 +21,8 @@ export default function Home() {
     name: string;
     email: string;
     password: string;
-    developer_id: number;
-    manager_id: string;
+    //developer_id: number;
+    //manager_id: string;
     team_id: number; 
     role: string;
   }>();
@@ -42,15 +42,23 @@ export default function Home() {
       description: string;
       priority: string;
       status: string;
-      developer_id: string;
-      notes: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
+      //notes: string;
     }[]
   >([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedTasksString = localStorage.getItem(
-        "team_" + user?.developer_id
+        "team_" + user?.team_id
       );
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
@@ -64,8 +72,12 @@ export default function Home() {
     description: string;
     priority: string;
     status: string;
-    developer_id: string;
-    notes: string;
+    developer: {
+      id: number;
+      name: string;
+      email: string;
+    };
+    //notes: string;
   }>();
 
   useEffect(() => {
