@@ -125,11 +125,18 @@
 }
 
 /* Details */
+
 .sliderCont {
-  position: relative;
+  position: absolute;
+  bottom: 0px;
   width: 100%;
   height: fit-content;
   display: flex;
+  animation: opacityIn 0.5s ease-in-out;
+}
+
+.hidden {
+  display: none;
 }
 
 .slider {
@@ -176,6 +183,8 @@
 }
 
 .marginBottom {
+  position: relative;
+  width: 100%;
   margin-bottom: 15px; /* Ajusta el valor según tus necesidades */
 }
 
@@ -199,5 +208,14 @@
   to {
     opacity: 100%;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
   }
 }

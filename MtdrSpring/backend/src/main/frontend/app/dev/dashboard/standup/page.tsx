@@ -94,7 +94,7 @@ export default function Home() {
           />
 
           <Link
-            href={"/dev/dashboard/task/preview"}
+            href={"/dev/dashboard/"}
             className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
             Check-In
