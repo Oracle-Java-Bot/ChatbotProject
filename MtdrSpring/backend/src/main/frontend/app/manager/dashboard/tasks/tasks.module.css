@@ -94,7 +94,7 @@
 }
 
 .status {
-  font-size: var(--SX);
+  font-size: var(--XS);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -134,16 +134,13 @@
 }
 
 .bottomBtn {
-  width: calc(100% - 40px);
-  margin: auto;
-  bottom: 20px;
+  position: relative;
+  width: 100%;
   color: white;
   text-align: center;
   font-size: var(--S);
   border-radius: var(--btn-border);
   padding: 10px 0;
-
-  position: absolute;
 }
 
 .left {

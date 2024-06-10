@@ -251,8 +251,8 @@ export default function Home() {
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
       >
-        <Link href="/manager/dashboard" className={`${s.bottomBtn}  !bg-black`}>
-          Dashboard
+        <Link href="/manager/dashboard">
+          <button className={`${s.bottomBtn}  !bg-black`}>Dashboard</button>
         </Link>
       </div>
     </div>

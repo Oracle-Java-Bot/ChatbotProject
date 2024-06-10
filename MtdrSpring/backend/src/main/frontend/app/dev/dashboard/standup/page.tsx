@@ -5,6 +5,7 @@ import r from "../../../responsive.module.css";
 import s from "./standup.module.css";
 import { userAgentFromString } from "next/server";
 import axios from "axios";
+import Link from "next/link";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -50,43 +51,54 @@ export default function Home() {
 
       <div className={isFull ? `${r.body} ${r.full}` : `${r.body} ${r.fit}`}>
         <div className={s.createBody}>
-          <div className={s.cat}>
+          <div className={`${s.cat} ${s.separator}`}>
             Answer simple questions in order to keep track of your progress and
             daily activity.
           </div>
 
-          <div className={s.checkInRow}>
-            <div> Lets start the day! </div>
-            <div className={s.checkInBtn}> Check-In</div>
-          </div>
+          <div className={s.cat}> What did I do yesterday?: </div>
+          <textarea
+            /* Progress */
+            className={s.input}
+            value={""}
+            onChange={(e) => {}}
+            placeholder={"Progress made"}
+          />
+
+          <div className={s.cat}> What do I plan on doing today?: </div>
+          <textarea
+            /* Plans */
+            className={s.input}
+            value={""}
+            onChange={(e) => {}}
+            placeholder={"Today's plans"}
+          />
 
           <div className={s.cat}> Blockers: </div>
           <textarea
+            /* Challenge */
             className={s.input}
             value={""}
             onChange={(e) => {}}
             placeholder={"Write here the things stopping you from progressing."}
           />
-          {/* 
-          <div className={s.cat}> Notes: </div>
-          <textarea
-            className={s.input}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder={currentTask?.notes}
-          />
-          */}
         </div>
       </div>
 
       <div className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}>
         <div className={`${s.doublebtn} !bg-black p-2`}>
-          <button
-            className={`${s.btn} ${s.custom} !bg-white !text-black`}
-            onClick={(e) => {}}
+          <img
+            onClick={() => history.back()}
+            src="/icons/back.png"
+            className={`${s.backIcon} !ml-3 !mr-4`}
+          />
+
+          <Link
+            href={"/dev/dashboard/"}
+            className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
-            Go Back
-          </button>
+            Check-In
+          </Link>
         </div>
       </div>
     </div>

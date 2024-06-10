@@ -51,6 +51,11 @@
   font-weight: 500;
   font-size: var(--S);
   animation: fadeIn 1s ease-in-out;
+  margin-top: 20px;
+}
+
+.separator {
+  margin-bottom: 40px;
 }
 .input {
   width: 100%;

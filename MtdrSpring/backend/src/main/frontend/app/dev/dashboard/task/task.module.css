@@ -28,6 +28,19 @@
   animation: fadeIn 1.2s ease-in-out;
 }
 
+.btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 23px;
+  margin: 0 auto;
+  width: 100%;
+  font-size: var(--M);
+  color: var(--white);
+  background-color: var(--black);
+  border-radius: var(--btn-border);
+}
+
 .mainBody {
   width: 100%;
   height: 100%;
@@ -112,12 +125,18 @@
 }
 
 /* Details */
+
 .sliderCont {
-  position: relative;
+  position: absolute;
+  bottom: 0px;
   width: 100%;
   height: fit-content;
   display: flex;
-  animation: fadeIn 1.2s ease-in-out;
+  animation: opacityIn 0.5s ease-in-out;
+}
+
+.hidden {
+  display: none;
 }
 
 .slider {
@@ -164,9 +183,10 @@
 }
 
 .marginBottom {
+  position: relative;
+  width: 100%;
   margin-bottom: 15px; /* Ajusta el valor según tus necesidades */
 }
-
 
 /* Fade In */
 .fadeIn {
@@ -188,5 +208,14 @@
   to {
     opacity: 100%;
     transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes opacityIn {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
   }
 }

@@ -10,15 +10,15 @@ import { time } from "console";
 import axios from "axios";
 import Link from "next/link";
 
-
 export default function Home() {
   const router = useRouter();
   const [isExpanded, setIsExpanded] = useState(false);
-
   const [isFull, setFull] = useState(false); /* Expands the body cont */
   const [isCentered, setCentered] = useState(false); /* Centers the body cont */
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
+
+  const [showComplete, setShowComplete] = useState(false);
 
   /* CURRENT USER */
   const [user, setUser] = useState<{
@@ -60,9 +60,7 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedTasksString = localStorage.getItem(
-        "team_" + user?.team_id
-      );
+      const storedTasksString = localStorage.getItem("team_" + user?.team_id);
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
   }, [user]);
@@ -104,16 +102,18 @@ export default function Home() {
   const completeTask = async () => {
     try {
       console.log("Completing task:", currentTask?.id);
-      const response = await axios.patch(`https://team12.kenscourses.com/tasks/${currentTask?.id}/complete`);
+      const response = await axios.patch(
+        `https://team12.kenscourses.com/tasks/${currentTask?.id}/complete`
+      );
       if (response.status === 200) {
-        console.log('Task completed successfully');
+        console.log("Task completed successfully");
         // Remove the completed task from localStorage
-        localStorage.removeItem('currentTask');
+        localStorage.removeItem("currentTask");
       } else {
-        console.error('Failed to complete task');
+        console.error("Failed to complete task");
       }
     } catch (error) {
-      console.error('Error completing task:', error);
+      console.error("Error completing task:", error);
     }
   };
 
@@ -169,55 +169,72 @@ export default function Home() {
           <div className={`${s.fastFadeIn} !text-gray-60"`}>
             {currentTask?.developer.email}
           </div>
-          <div className={`${s.fastFadeIn} !font-bold pt-4`}>
-            Description
-          </div>
+          <div className={`${s.fastFadeIn} !font-bold pt-4`}>Description</div>
           <div className={`${s.fastFadeIn} !pt-3`}>
             {currentTask?.description}
           </div>
-          <div className={`${s.fastFadeIn} !font-bold pt-4`}>
-            Date
+          <div className={`${s.fastFadeIn} !font-bold pt-4`}>Date</div>
+          <div className={`${s.fastFadeIn} !text-gray-60`}>
+            Created at:{" "}
+            {currentTask?.created_at
+              ? new Date(currentTask.created_at).toISOString().slice(0, 10)
+              : ""}
           </div>
           <div className={`${s.fastFadeIn} !text-gray-60`}>
-            Created at: {currentTask?.created_at ? new Date(currentTask.created_at).toISOString().slice(0, 10) : ''}
-          </div>
-          <div className={`${s.fastFadeIn} !text-gray-60`}>
-            Updated at: {currentTask?.created_at ? new Date(currentTask.created_at).toISOString().slice(0, 10) : ''}
+            Updated at:{" "}
+            {currentTask?.created_at
+              ? new Date(currentTask.created_at).toISOString().slice(0, 10)
+              : ""}
           </div>
         </div>
       </div>
 
       <div
-  className={`${isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper} ${s.marginBottom}`}
->
-  <Link href="/dev/dashboard" className={`${s.btn}  !bg-black`}>
-    Dashboard
-  </Link>
-</div>
+        className={`${isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper} ${
+          s.marginBottom
+        }`}
+      >
+        <div className={`${s.doublebtn} !bg-black p-2`}>
+          <img
+            onClick={() => history.back()}
+            src="/icons/back.png"
+            className={`${s.backIcon} !ml-3 !mr-4`}
+          />
+          <div
+            onClick={() => setShowComplete(true)}
+            className={`${s.btn} ${s.custom} !bg-white !text-black`}
+          >
+            Complete
+          </div>
+        </div>
 
-<div className={s.sliderCont}>
-  <div className={s.float}>
-    <Swiper
-      onRealIndexChange={(element) => setActiveIndex(element.activeIndex)}
-      className={s.slider}
-      spaceBetween={-100}
-      slidesPerView={1}
-      initialSlide={2}
-    >
-      <SwiperSlide className={s.completedCont}>
-        <div className={`${s.completedSlide}  !bg-black`} />
-      </SwiperSlide>
-      <SwiperSlide>
-        <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
-      </SwiperSlide>
-    </Swiper>
-  </div>
+        <div className={showComplete ? s.sliderCont : s.hidden}>
+          <div className={s.float}>
+            <Swiper
+              onRealIndexChange={(element) =>
+                setActiveIndex(element.activeIndex)
+              }
+              className={s.slider}
+              spaceBetween={-100}
+              slidesPerView={1}
+              initialSlide={2}
+            >
+              <SwiperSlide className={s.completedCont}>
+                <div className={`${s.completedSlide}  !bg-black`} />
+              </SwiperSlide>
+              <SwiperSlide>
+                <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
+              </SwiperSlide>
+            </Swiper>
+          </div>
 
-  <button className={`${s.btn}  ${s.sliderBtn}  !bg-black`}>
-    Slide To Complete
-  </button>
-</div>
-
+          <button
+            className={`${s.btns}  ${s.sliderBtn}  !bg-black !text-white`}
+          >
+            Slide To Complete
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
