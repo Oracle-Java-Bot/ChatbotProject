@@ -128,7 +128,7 @@ export default function Home() {
       <div className={s.sFont}>Role: {userRole}</div>
 
       <div className="flex justify-center gap-4 mt-4">
-        <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
+        <Link href="dashboard/performance" className={`${s.btn}  !bg-red-500 `}>
           Performance Review
         </Link>
       </div>
