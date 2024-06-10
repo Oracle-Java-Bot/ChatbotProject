@@ -5,6 +5,7 @@ import r from "../../../responsive.module.css";
 import s from "./standup.module.css";
 import { userAgentFromString } from "next/server";
 import axios from "axios";
+import Link from "next/link";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -82,21 +83,22 @@ export default function Home() {
             placeholder={"Write here the things stopping you from progressing."}
           />
         </div>
-
-        <div className={s.checkInRow}>
-          <div> Lets start the day! </div>
-          <div className={s.checkInBtn}> Check-In</div>
-        </div>
       </div>
 
       <div className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}>
         <div className={`${s.doublebtn} !bg-black p-2`}>
-          <button
-            className={`${s.btn} ${s.custom} !bg-white !text-black`}
-            onClick={(e) => {}}
+          <img
+            onClick={() => history.back()}
+            src="/icons/back.png"
+            className={`${s.backIcon} !ml-3 !mr-4`}
+          />
+
+          <Link
+            href={"/dev/dashboard/task/preview"}
+            className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
-            Go Back
-          </button>
+            Check-In
+          </Link>
         </div>
       </div>
     </div>
