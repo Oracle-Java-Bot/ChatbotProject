@@ -93,7 +93,7 @@
 }
 
 .status {
-  font-size: var(--SX);
+  font-size: var(--XS);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -131,6 +131,17 @@
 .left {
   margin-left: 10px;
 }
+
+.bottomBtn {
+  position: relative;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: var(--S);
+  border-radius: var(--btn-border);
+  padding: 10px 0;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0%;

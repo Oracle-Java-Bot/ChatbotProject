@@ -43,15 +43,17 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (typeof window !== 'undefined') {
-          const storedUser = localStorage.getItem('user');
+        if (typeof window !== "undefined") {
+          const storedUser = localStorage.getItem("user");
           if (storedUser) {
             const user = JSON.parse(storedUser);
             const userID = user.id;
-  
-            const response = await axios.get(`https://team12.kenscourses.com/tasks/developer/${userID}`);
+
+            const response = await axios.get(
+              `https://team12.kenscourses.com/tasks/developer/${userID}`
+            );
             const data = response.data;
-  
+
             // Set user data from localStorage
             setUser(user);
             // Set tasks data
@@ -64,7 +66,7 @@ export default function Home() {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData();
   }, []);
 
@@ -87,19 +89,17 @@ export default function Home() {
     }[]
   >([]);
 
-  
-
   /* CURRENT TASK */
   /* CURRENT TASK */
-const updateTask = (task: {
-  id: number;
-  title: string;
-  priority: string;
-  status: string;
-  developer: {
-    name: string;
-    email: string;
-  };
+  const updateTask = (task: {
+    id: number;
+    title: string;
+    priority: string;
+    status: string;
+    developer: {
+      name: string;
+      email: string;
+    };
   }) => {
     localStorage.setItem("currentTask", JSON.stringify(task));
   };
@@ -150,125 +150,123 @@ const updateTask = (task: {
         }
       >
         <div className={s.mainBody}>
-        {active? // Render tasks that are not cancelled or completed when active is true
-          tasks
-            .filter(
-              (task: { status: string }) =>
-                task.status !== "cancelled" && task.status !== "completed"
-            )
-            .map(
-              (task: {
-                id: number;
-                title: string;
-                priority: string;
-                status: string;
-                developer: {
-                  name: string;
-                  email: string;
-                };
-              }) => (
-                <div key={task.id}>
-                  <div className={s.task}>
-                    <div>
-                      <div>{task.title}</div>
-                      <div className="text-gray-500 text-sm mt-1">
-                        {task?.developer?.name} - {task?.developer?.email}
-                      </div>
-                    </div>
-                    <div className={s.rightOpt}>
-                      <div
-                        className={
-                          task.priority === "low"
-                            ? `${s.status} bg-green-500`
-                            : task.priority === "medium"
-                            ? `${s.status} bg-yellow-500`
-                            : `${s.status} bg-red-500`
-                        }
-                      >
-                        {task.priority}
-                      </div>
+          {active // Render tasks that are not cancelled or completed when active is true
+            ? tasks
+                .filter(
+                  (task: { status: string }) =>
+                    task.status !== "cancelled" && task.status !== "completed"
+                )
+                .map(
+                  (task: {
+                    id: number;
+                    title: string;
+                    priority: string;
+                    status: string;
+                    developer: {
+                      name: string;
+                      email: string;
+                    };
+                  }) => (
+                    <div key={task.id}>
+                      <div className={s.task}>
+                        <div>
+                          <div>{task.title}</div>
+                          <div className="text-gray-500 text-sm mt-1">
+                            {task?.developer?.name} - {task?.developer?.email}
+                          </div>
+                        </div>
+                        <div className={s.rightOpt}>
+                          <div
+                            className={
+                              task.priority === "low"
+                                ? `${s.status} bg-green-500`
+                                : task.priority === "medium"
+                                ? `${s.status} bg-yellow-500`
+                                : `${s.status} bg-red-500`
+                            }
+                          >
+                            {task.priority}
+                          </div>
 
-                      <div
-                        className={
-                          task.status === "in-progress"
-                            ? `${s.status} bg-yellow-500 ml-2`
-                            : `${s.status} bg-orange-500 ml-2`
-                        }
-                      >
-                        {task.status}
-                      </div>
+                          <div
+                            className={
+                              task.status === "in-progress"
+                                ? `${s.status} bg-yellow-500 ml-2`
+                                : `${s.status} bg-orange-500 ml-2`
+                            }
+                          >
+                            {task.status}
+                          </div>
 
-                      <Link
-                        onClick={() => updateTask(task)}
-                        href="/dev/dashboard/task/details"
-                      >
-                        <img className={s.icon} src="/icons/open.png" />
-                      </Link>
-                    </div>
-                  </div>
-                </div>
-              )
-            )
-        : // Render tasks that are cancelled or completed when active is false
-          tasks
-            .filter(
-              (task: { status: string }) =>
-                task.status === "cancelled" || task.status === "completed"
-            )
-            .map(
-              (task: {
-                id: number;
-                title: string;
-                priority: string;
-                status: string;
-                developer: {
-                  name: string;
-                  email: string;
-                };
-              }) => (
-                <div key={task.id}>
-                  <div className={s.task}>
-                    <div>
-                      <div>{task.title}</div>
-                    </div>
-                    <div className={s.rightOpt}>
-                    <div
-                        className={
-                          task.priority === "low"
-                            ? `${s.status} bg-green-500`
-                            : task.priority === "medium"
-                            ? `${s.status} bg-yellow-500`
-                            : `${s.status} bg-red-500`
-                        }
-                      >
-                        {task.priority}
-                      </div>
-                      <div
-                        className={
-                          task.status === "completed"
-                            ? `${s.status} bg-green-500`
-                            : `${s.status} bg-red-500`
-                        }
-                      >
-                        {task.status}
+                          <Link
+                            onClick={() => updateTask(task)}
+                            href="/dev/dashboard/task/details"
+                          >
+                            <img className={s.icon} src="/icons/open.png" />
+                          </Link>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </div>
-              )
-            )}
+                  )
+                )
+            : // Render tasks that are cancelled or completed when active is false
+              tasks
+                .filter(
+                  (task: { status: string }) =>
+                    task.status === "cancelled" || task.status === "completed"
+                )
+                .map(
+                  (task: {
+                    id: number;
+                    title: string;
+                    priority: string;
+                    status: string;
+                    developer: {
+                      name: string;
+                      email: string;
+                    };
+                  }) => (
+                    <div key={task.id}>
+                      <div className={s.task}>
+                        <div>
+                          <div>{task.title}</div>
+                        </div>
+                        <div className={s.rightOpt}>
+                          <div
+                            className={
+                              task.priority === "low"
+                                ? `${s.status} bg-green-500`
+                                : task.priority === "medium"
+                                ? `${s.status} bg-yellow-500`
+                                : `${s.status} bg-red-500`
+                            }
+                          >
+                            {task.priority}
+                          </div>
+                          <div
+                            className={
+                              task.status === "completed"
+                                ? `${s.status} bg-green-500`
+                                : `${s.status} bg-red-500`
+                            }
+                          >
+                            {task.status}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                )}
         </div>
       </div>
 
       <div
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
-        
       >
-        <Link href="/dev/dashboard" className={`${s.btn}  !bg-black`}>
-          Dashboard
+        <Link href="/dev/dashboard">
+          <button className={`${s.bottomBtn}  !bg-black`}>Dashboard</button>
         </Link>
-        
       </div>
     </div>
   );
