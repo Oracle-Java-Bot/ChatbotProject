@@ -6,6 +6,7 @@ import s from "../task.module.css";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { time } from "console";
 
 export default function Home() {
@@ -195,30 +196,10 @@ export default function Home() {
         /* Bottom Wrapper */
         className={isBottom ? `${r.wrapper} ${r.bottom}` : r.wrapper}
       >
-        <div className={s.sliderCont}>
-          <div className={s.float}>
-            <Swiper
-              onRealIndexChange={(element) =>
-                setActiveIndex(element.activeIndex)
-              }
-              className={s.slider}
-              spaceBetween={-100}
-              slidesPerView={1}
-              initialSlide={2}
-            >
-              <SwiperSlide className={s.completedCont}>
-                <div className={`${s.completedSlide}  !bg-black`} />
-              </SwiperSlide>
-              <SwiperSlide>
-                <div className={`${s.initialSlide} !bg-red-500`}>{">>"}</div>
-              </SwiperSlide>
-            </Swiper>
-          </div>
-
-          <button className={`${s.btn}  ${s.sliderBtn}  !bg-black`}>
-            Slide To Complete
-          </button>
-        </div>
+        <Link href="/manager/dashboard">
+          <button className={`${s.bottomBtn}  !bg-black`}>Dashboard</button>
+        </Link>
+        
       </div>
     </div>
   );

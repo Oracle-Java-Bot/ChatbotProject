@@ -39,7 +39,7 @@ export default function Home() {
 
   //Cosas para el filtro de standups 24horas
   const now = new Date();
-  const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000); // Hace 48 horas
+  const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000); // Hace 24 horas
 
 
   useEffect(() => {

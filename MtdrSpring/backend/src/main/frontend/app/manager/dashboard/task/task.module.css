@@ -186,6 +186,17 @@
   animation: fadeIn 1s ease-in-out;
   animation-fill-mode: both;
 }
+
+.bottomBtn {
+  position: relative;
+  width: 100%;
+  color: white;
+  text-align: center;
+  font-size: var(--S);
+  border-radius: var(--btn-border);
+  padding: 10px 0;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0%;
