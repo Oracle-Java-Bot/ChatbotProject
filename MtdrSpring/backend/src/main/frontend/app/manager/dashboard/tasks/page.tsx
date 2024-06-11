@@ -90,8 +90,24 @@ export default function Home() {
   >([]);
 
   /* CURRENT TASK */
-  const updateTask = (updatedTask: number) => {
-    localStorage.setItem("currentTask", JSON.stringify(updatedTask));
+  const updateTask = (task: {
+    id: number;
+    title: string;
+    priority: string;
+    status: string;
+    developer: {
+      id: number;
+      name: string;
+      email: string;
+      team_id: number;
+      role: string;
+    };
+    created_at: string;
+    updated_at: string;
+    }) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentTask", JSON.stringify(task));
+    }
   };
 
   return (
@@ -186,7 +202,7 @@ export default function Home() {
                           </div>
 
                           <Link
-                            onClick={() => updateTask(task.id)}
+                            onClick={() => updateTask(task)}
                             href="/manager/dashboard/task/details"
                           >
                             <img className={s.icon} src="/icons/open.png" />
