@@ -178,7 +178,7 @@ export default function Home() {
 
           <Link
             onClick={addStandup}
-            href={"/standup/standupCreated"}
+            href={"/dev/dashboard/standup/standupCreated"}
             className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
             Check-In
