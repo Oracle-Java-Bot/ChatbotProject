@@ -7,6 +7,7 @@ import com.bot.javabot.repository.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,9 @@ import java.util.Optional;
 public class UserService {
     @Autowired
     private UserRepository userRepository;
+    //Hashing
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
     //Show all tasks
     public List<User> findAll(){
         List<User> users = userRepository.findAll();
@@ -28,14 +32,31 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException("User not found with ID: " + userId));
     }
 
-    //Save
+    //Save without Hashing
+    /*public User createUser(User user){
+        return userRepository.save(user);
+    }*/
+
+    //Save with Hashing
     public User createUser(User user){
+        String plainPassword = user.getPassword();
+        String hashedPassword = bCryptPasswordEncoder.encode(plainPassword);
+        user.setPassword(hashedPassword);
         return userRepository.save(user);
     }
 
-    //Get By Email and Password
-    public User getUserByEmailAndPassword(String email, String password){
+    //Get By Email and Password (NO HASHING)
+    /*public User getUserByEmailAndPassword(String email, String password){
         return userRepository.findByEmailAndPassword(email, password);
+    }*/
+
+    //GET By Email and Password (HASHED)
+    public User getUserByEmailAndPassword(String email, String plainPassword){
+        User user = userRepository.findByEmail(email);
+        if(user != null && bCryptPasswordEncoder.matches(plainPassword, user.getPassword())){
+            return user;
+        }
+        return null;
     }
 
 
