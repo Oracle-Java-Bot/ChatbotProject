@@ -32,6 +32,80 @@ export default function Home() {
     }
   }, []);
 
+  const [tempStandup, setTempStandup] = useState<{
+    id: number;
+    progress: string;
+    plans: string;
+    challenge: string;
+    support: string;
+    time_standup: string;
+    team: {
+      id: number;
+      name: string;
+    };
+    developer: {
+      id: number;
+      name: string;
+      email: string;
+    };
+  }>({
+    id: 66,
+    progress: "",
+    plans: "",
+    challenge: "",
+    support: "",
+    time_standup: "",
+    team: {
+      id: 0,
+      name: "",
+    },
+    developer: {
+      id: 0,
+      name: "",
+      email: "",
+    },
+  });
+
+  const handleProgressChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTempStandup({ ...tempStandup, progress: e.target.value });
+  };
+
+  const handlePlansChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTempStandup({ ...tempStandup, plans: e.target.value });
+  };
+
+  const handleChallengeChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTempStandup({ ...tempStandup, challenge: e.target.value });
+  };
+
+  const handleSupportChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTempStandup({ ...tempStandup, support: e.target.value });
+  };
+
+  const addStandup = async () => {
+    try {
+      const currentTime = new Date().toISOString();
+      setTempStandup({ ...tempStandup, time_standup: currentTime });
+
+      const response = await axios.post("https://team12.kenscourses.com/standups", {
+        ...tempStandup,
+        team: {
+          id: user?.team_id,
+        },
+        developer: {
+          id: user?.id,
+          name: user?.name,
+          email: user?.email,
+          password: user?.password,
+          team_id: user?.team_id,
+          role: user?.role,
+        },
+      });
+    } catch (error) {
+      console.error("Error submitting standup:", error);
+    }
+  };
+
   return (
     <div
       className={
@@ -60,8 +134,8 @@ export default function Home() {
           <textarea
             /* Progress */
             className={s.input}
-            value={""}
-            onChange={(e) => {}}
+            value={tempStandup.progress}
+            onChange={handleProgressChange}
             placeholder={"Progress made"}
           />
 
@@ -69,8 +143,8 @@ export default function Home() {
           <textarea
             /* Plans */
             className={s.input}
-            value={""}
-            onChange={(e) => {}}
+            value={tempStandup.plans}
+            onChange={handlePlansChange}
             placeholder={"Today's plans"}
           />
 
@@ -78,9 +152,18 @@ export default function Home() {
           <textarea
             /* Challenge */
             className={s.input}
-            value={""}
-            onChange={(e) => {}}
+            value={tempStandup.challenge}
+            onChange={handleChallengeChange}
             placeholder={"Write here the things stopping you from progressing."}
+          />
+
+          <div className={s.cat}> Additional notes: </div>
+          <textarea
+            /* Support */
+            className={s.input}
+            value={tempStandup.support}
+            onChange={handleSupportChange}
+            placeholder={"Write here the things that you would like to share with your manager."}
           />
         </div>
       </div>
@@ -94,7 +177,8 @@ export default function Home() {
           />
 
           <Link
-            href={"/dev/dashboard/"}
+            onClick={addStandup}
+            href={"/dev/dashboard/standup/standupCreated"}
             className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
             Check-In

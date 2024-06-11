@@ -90,8 +90,19 @@ export default function Home() {
   >([]);
 
   /* CURRENT TASK */
-  const updateTask = (updatedTask: number) => {
-    localStorage.setItem("currentTask", JSON.stringify(updatedTask));
+  const updateTask = (task: {
+    id: number;
+    title: string;
+    priority: string;
+    status: string;
+    developer: {
+      name: string;
+      email: string;
+    };
+  }) => {
+    if (typeof window !== "undefined") {
+      localStorage.setItem("currentTask", JSON.stringify(task));
+    }
   };
 
   return (
@@ -142,7 +153,7 @@ export default function Home() {
         <div className={s.mainBody}>
           {active // Render tasks that are not cancelled or completed when active is true
             ? tasks
-                .filter((task: { status: string }) => task.status === "pending")
+                .filter((tasks: { status: string }) => tasks.status === "pending")
                 .map(
                   (task: {
                     id: number;
@@ -155,7 +166,7 @@ export default function Home() {
                     };
                   }) => (
                     <div key={task.id}>
-                      <div className={s.task}>
+                      <div className={s.tasks}>
                         <div>
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
@@ -186,7 +197,7 @@ export default function Home() {
                           </div>
 
                           <Link
-                            onClick={() => updateTask(task.id)}
+                            onClick={() => updateTask(task)}
                             href="/manager/dashboard/task/details"
                           >
                             <img className={s.icon} src="/icons/open.png" />

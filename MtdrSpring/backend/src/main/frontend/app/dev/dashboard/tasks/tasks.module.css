@@ -71,8 +71,8 @@
   display: flex;
   align-items: center;
   animation: fadeIn 1.6s ease-in-out;
+  flex-shrink: 0;
 }
-
 .icon {
   height: 20px;
   margin-left: 10px;
