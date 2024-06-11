@@ -21,6 +21,25 @@
   box-shadow: var(--shortglow);
 }
 
+.btn {
+  width: 100%;
+  background-color: var(--black);
+  color: var(--white);
+  padding: 10px 40px;
+  margin: 20px 0px;
+  border-radius: var(--btn-border);
+  font-size: var(--S);
+  text-align: center;
+  animation: fadeIn 1.4s ease-in-out;
+  box-shadow: var(--shortglow);
+}
+
+.title {
+  font-size: var(--M);
+  font-weight: bold;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
 .standup {
   padding: 15px 15px;
   margin: 10px 0;

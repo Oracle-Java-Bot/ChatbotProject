@@ -145,6 +145,9 @@ export default function Home() {
         }
       >
         <div className={s.mainBody}>
+          <div className="flex justify-between">
+              <div className={s.title}>StandUps</div>
+          </div>
           {standups
 
             .map((standup) => (
