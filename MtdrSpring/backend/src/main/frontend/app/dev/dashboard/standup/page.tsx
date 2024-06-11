@@ -32,6 +32,56 @@ export default function Home() {
     }
   }, []);
 
+  const [tempStandup, setTempStandup] = useState<{
+    id: number;
+      progress: string;
+      plans: string;
+      challenge: string;
+      support: string;
+      time_standup: string;
+      team: {
+        id: number;
+        name: string;
+      };
+      developer: {
+        id: number;
+        name: string;
+        email: string;
+      };
+  }>();
+
+
+
+
+  const addStandup = async () => {
+    if (tempStandup) {
+      try {
+        const response = await axios.post("https://team12.kenscourses.com/standups", {
+        ...tempStandup,
+        team: {
+        id: user?.team_id
+        },
+        developer: {
+          id: user?.id,
+          name: user?.name,
+          email: user?.email,
+          password: user?.password,
+          team_id: user?.team_id,
+          role: user?.role
+        }
+      });
+      if (response.status === 201) {
+        setTasks((prevTasks) => [...prevTasks, tempTask]);
+        localStorage.removeItem("tempTask");
+      } else {
+        console.error("Failed to create task");
+      }
+      } catch (error) {
+        console.error("Error creating task:", error);
+      }
+    }
+  };
+
   return (
     <div
       className={
@@ -82,6 +132,15 @@ export default function Home() {
             onChange={(e) => {}}
             placeholder={"Write here the things stopping you from progressing."}
           />
+
+          <div className={s.cat}> Additional notes: </div>
+          <textarea
+            /* Challenge */
+            className={s.input}
+            value={""}
+            onChange={(e) => {}}
+            placeholder={"Write here the things that you would like to share with your manager."}
+          />
         </div>
       </div>
 
@@ -94,6 +153,7 @@ export default function Home() {
           />
 
           <Link
+            onClick={addStandup}
             href={"/dev/dashboard/"}
             className={`${s.btn} ${s.custom} !bg-red-500 !text-WHITE`}
           >
