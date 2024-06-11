@@ -96,15 +96,10 @@ export default function Home() {
     priority: string;
     status: string;
     developer: {
-      id: number;
       name: string;
       email: string;
-      team_id: number;
-      role: string;
     };
-    created_at: string;
-    updated_at: string;
-    }) => {
+  }) => {
     if (typeof window !== "undefined") {
       localStorage.setItem("currentTask", JSON.stringify(task));
     }
@@ -158,7 +153,7 @@ export default function Home() {
         <div className={s.mainBody}>
           {active // Render tasks that are not cancelled or completed when active is true
             ? tasks
-                .filter((task: { status: string }) => task.status === "pending")
+                .filter((tasks: { status: string }) => tasks.status === "pending")
                 .map(
                   (task: {
                     id: number;
@@ -171,7 +166,7 @@ export default function Home() {
                     };
                   }) => (
                     <div key={task.id}>
-                      <div className={s.task}>
+                      <div className={s.tasks}>
                         <div>
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
