@@ -40,13 +40,21 @@
 
 /* Create */
 
-.createBody {
+.createdBody {
   width: 100%;
   height: 100%;
-  border-radius: var(--btn-border);
-  padding: 10px 0px;
-  font-size: var(--S);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
+
+.animation {
+  width: 60%;
+  max-width: 400px;
+  animation: fadeIn 0.8s ease-in-out;
+}
+
 .cat {
   font-weight: 500;
   font-size: var(--S);
