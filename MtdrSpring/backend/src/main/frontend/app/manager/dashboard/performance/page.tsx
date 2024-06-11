@@ -37,6 +37,11 @@ export default function Home() {
   const [userTeamId, setUserTeamId] = useState("");
   const [userRole, setUserRole] = useState("");
 
+  //Cosas para el filtro de standups 24horas
+  const now = new Date();
+  const cutoff = new Date(now.getTime() - 24 * 60 * 60 * 1000); // Hace 48 horas
+
+
   useEffect(() => {
     const fetchData = async() => {
       try {
@@ -149,6 +154,14 @@ export default function Home() {
               <div className={s.title}>StandUps</div>
           </div>
           {standups
+
+            .filter(//Filtro para que solo aparezcan standups de hace menos de 48 horas
+              (standup) =>{
+                const completedAt = new Date(standup.time_standup);
+                return completedAt >= cutoff;
+              }
+                
+            )
 
             .map((standup) => (
               <div key={standup.id}>
