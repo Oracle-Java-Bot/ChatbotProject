@@ -169,7 +169,7 @@ export default function Home() {
                   <div>
                     <div>Developer : {standup.developer.name}</div>
                     <div>Previous Work : {standup.progress}</div>
-                    <div>Today's work : {standup.plans}</div>
+                    <div>Todays work : {standup.plans}</div>
                     <div>Blockers : {standup.challenge}</div>
                     <div>Notes : {standup.support}</div>
                     <div className={s.created}>
