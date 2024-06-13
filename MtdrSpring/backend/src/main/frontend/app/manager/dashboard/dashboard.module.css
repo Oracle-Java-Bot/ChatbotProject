@@ -23,6 +23,7 @@
   font-size: var(--S);
   box-shadow: var(--shortglow);
 }
+
 .title {
   font-size: var(--M);
   font-weight: bold;
@@ -84,6 +85,24 @@
   text-align: center;
   animation: fadeIn 1.4s ease-in-out;
   box-shadow: var(--shortglow);
+}
+
+@media (max-width: 300px) {
+  .rightOpt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1.6s ease-in-out;
+    flex-shrink: 0;
+  }
+  .priorityIndicator {
+    width: 20px;
+    height: 20px;
+
+    border-radius: 50%;
+    margin-bottom: 5px;
+  }
 }
 
 .rightOpt {

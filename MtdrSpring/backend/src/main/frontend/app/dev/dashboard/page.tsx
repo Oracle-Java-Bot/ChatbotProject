@@ -11,7 +11,7 @@ export default function Home() {
 
   const [isFull, setFull] = useState(false); /* Expands the body cont */
   const [isCentered, setCentered] = useState(false); /* Centers the body cont */
-  const [isBottom, setBottom] = useState(true);
+  const [isBottom, setBottom] = useState(false);
   const trueCenter = false;
 
   /* CURRENT USER */
