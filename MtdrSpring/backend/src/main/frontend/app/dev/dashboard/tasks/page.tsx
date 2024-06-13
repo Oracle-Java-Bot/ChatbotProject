@@ -14,6 +14,7 @@ import r from "../../../responsive.module.css";
 import s from "./tasks.module.css";
 import Link from "next/link";
 import axios from "axios";
+import { format } from "date-fns";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -104,6 +105,15 @@ export default function Home() {
     localStorage.setItem("currentTask", JSON.stringify(task));
   };
 
+  const formatDate = (timestamp) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
   return (
     <div
       /* Main Container */
@@ -172,7 +182,7 @@ export default function Home() {
                         <div>
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
-                            {task?.developer?.name}
+                            {formatDate(task?.updated_at)}
                           </div>
                         </div>
                         <div className={s.rightOpt}>

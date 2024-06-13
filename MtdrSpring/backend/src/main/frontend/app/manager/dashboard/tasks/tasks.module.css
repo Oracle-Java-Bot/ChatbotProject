@@ -72,6 +72,7 @@
 .rightOpt {
   display: flex;
   align-items: center;
+  justify-content: end;
   animation: fadeIn 1.6s ease-in-out;
   flex-shrink: 0;
 }
@@ -104,8 +105,8 @@
   border-radius: var(--btn-border);
   flex: 1;
   text-align: center;
-  min-width: 70px;
-  width: 70px;
+
+  width: fit-content;
   margin-left: 5px;
 }
 
@@ -147,6 +148,18 @@
 
 .left {
   margin-left: 10px;
+}
+
+.task {
+  padding: 15px 15px;
+  margin: 10px 0;
+  background-color: var(--white);
+  box-shadow: var(--shortglow);
+  border-radius: calc(var(--btn-border) - 3px);
+  animation: fadeIn 1.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .tasks {

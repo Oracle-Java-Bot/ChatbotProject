@@ -162,7 +162,7 @@ export default function Home() {
                     };
                   }) => (
                     <div key={task.id}>
-                      <div className={s.tasks}>
+                      <div className={s.task}>
                         <div>
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
@@ -217,7 +217,7 @@ export default function Home() {
                       email: string;
                     };
                   }) => (
-                    <div key={task.id}>
+                    <div className={s.taskCont} key={task.id}>
                       <div className={s.task}>
                         <div>
                           <div>{task.title}</div>
