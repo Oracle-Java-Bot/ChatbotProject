@@ -374,7 +374,7 @@ export default function Home() {
                     labels: { fontSize: 20 },
                   }}
                   labels={({ datum }) => datum.y}
-                  labelComponent={<VictoryLabel dy={20} />}
+                  labelComponent={<VictoryLabel dy={20} dx={-15} />}
                 />
               </VictoryChart>
             </div>
