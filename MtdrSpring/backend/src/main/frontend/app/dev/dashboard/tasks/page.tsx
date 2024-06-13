@@ -105,7 +105,7 @@ export default function Home() {
     localStorage.setItem("currentTask", JSON.stringify(task));
   };
 
-  const formatDate = (timestamp) => {
+  const formatDate = (timestamp: string | number | Date) => {
     const date = new Date(timestamp);
     return date.toLocaleString("en-US", {
       month: "2-digit",
@@ -131,8 +131,12 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {user?.name}!</div>
         <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
       </div>
-      <div className={s.sFont}>Role: {user?.role}</div>
-
+      <div className={s.sFont}>
+        Role:{" "}
+        {user?.role
+          ? `${user?.role.charAt(0).toUpperCase()}${user?.role.slice(1)}`
+          : ""}
+      </div>
       <div className={` ${s.selector}`}>
         <div
           className={

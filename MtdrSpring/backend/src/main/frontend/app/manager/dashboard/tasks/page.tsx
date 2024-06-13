@@ -105,6 +105,16 @@ export default function Home() {
     }
   };
 
+  const formatDate = (timestamp: string | number | Date) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div
       /* Main Container */
@@ -117,7 +127,13 @@ export default function Home() {
         <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
       </div>
 
-      <div className={s.sFont}>Role {user?.role}</div>
+      <div className={s.sFont}>
+        Role:{" "}
+        {user?.role
+          ? `${user?.role.charAt(0).toUpperCase()}${user?.role.slice(1)}`
+          : ""}
+      </div>
+
       <div className={` ${s.selector}`}>
         <div
           className={
@@ -167,6 +183,9 @@ export default function Home() {
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
                             {task?.developer?.name}
+                          </div>
+                          <div className="text-gray-500 text-sm mt-1">
+                            {formatDate(task?.updated_at)}
                           </div>
                         </div>
                         <div className={s.rightOpt}>
