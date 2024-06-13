@@ -154,53 +154,48 @@ export default function Home() {
             </Link>
           </div>
 
-          {tasks
-            .filter(
-              (task) =>
-                task.completed_at === null || task.completed_at === undefined
-            )
-            .map((task) => (
-              <div key={task.id}>
-                <div className={s.task}>
-                  <div>
-                    <div>{task.title}</div>
-                    <div className={s.taskDev}>{task.developer.name}</div>
+          {tasks.map((task) => (
+            <div key={task.id}>
+              <div className={s.task}>
+                <div>
+                  <div>{task.title}</div>
+                  <div className={s.taskDev}>{task.developer.name}</div>
 
-                    <div className={s.created}>
-                      Created:
-                      {new Date(task.created_at).toISOString().slice(0, 10)}
-                    </div>
-                  </div>
-                  <div className={s.rightOpt}>
-                    <div
-                      className={
-                        task.priority === "low"
-                          ? `${s.priorityIndicator} bg-green-500`
-                          : task.priority === "medium"
-                          ? `${s.priorityIndicator}  bg-yellow-500 `
-                          : `${s.priorityIndicator} bg-red-500`
-                      }
-                    />
-                    <div
-                      className={
-                        task.status === "completed"
-                          ? `${s.priorityIndicator} bg-green-500 ml-1`
-                          : task.status === "pending"
-                          ? `${s.priorityIndicator}  bg-yellow-500 ml-1 `
-                          : `${s.priorityIndicator} bg-red-500 ml-1`
-                      }
-                    />
-
-                    <Link
-                      onClick={() => updateTask(task)}
-                      href="dashboard/task/details"
-                    >
-                      <img className={s.icon} src="/icons/open.png" />
-                    </Link>
+                  <div className={s.created}>
+                    {"Created at: "}
+                    {new Date(task.created_at).toISOString().slice(0, 10)}
                   </div>
                 </div>
+                <div className={s.rightOpt}>
+                  <div
+                    className={
+                      task.priority === "low"
+                        ? `${s.priorityIndicator} bg-green-500`
+                        : task.priority === "medium"
+                        ? `${s.priorityIndicator}  bg-yellow-500 `
+                        : `${s.priorityIndicator} bg-red-500`
+                    }
+                  />
+                  <div
+                    className={
+                      task.status === "completed"
+                        ? `${s.priorityIndicator} bg-green-500 ml-1`
+                        : task.status === "pending"
+                        ? `${s.priorityIndicator}  bg-yellow-500 ml-1 `
+                        : `${s.priorityIndicator} bg-red-500 ml-1`
+                    }
+                  />
+
+                  <Link
+                    onClick={() => updateTask(task)}
+                    href="dashboard/task/details"
+                  >
+                    <img className={s.icon} src="/icons/open.png" />
+                  </Link>
+                </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
 
