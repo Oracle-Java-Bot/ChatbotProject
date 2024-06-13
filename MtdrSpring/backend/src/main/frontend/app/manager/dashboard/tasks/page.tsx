@@ -172,6 +172,7 @@ export default function Home() {
                     title: string;
                     priority: string;
                     status: string;
+                    updated_at: string;
                     developer: {
                       name: string;
                       email: string;

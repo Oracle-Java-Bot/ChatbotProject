@@ -123,3 +123,26 @@
 .left {
   margin-left: 10px;
 }
+
+/* Standups */
+
+.standupCont {
+  width: 100%;
+}
+.flex {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.double {
+  width: 100%;
+  padding-right: 5px;
+}
+.standupTitle {
+  padding-top: 8px;
+  font-size: var(--S);
+  font-weight: bold;
+}

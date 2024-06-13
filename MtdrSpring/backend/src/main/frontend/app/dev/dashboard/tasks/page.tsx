@@ -180,6 +180,7 @@ export default function Home() {
                       name: string;
                       email: string;
                     };
+                    updated_at: string;
                   }) => (
                     <div key={task.id}>
                       <div className={s.task}>

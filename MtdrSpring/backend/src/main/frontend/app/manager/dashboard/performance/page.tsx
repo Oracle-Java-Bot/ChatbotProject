@@ -169,7 +169,7 @@ export default function Home() {
 
   const colorScale = ["#F1C40F", "#66BB6A", "#E74C3C"];
 
-  const taskPercentage = (completedCount / tasks.length) * 100;
+  const taskPercentage = ((completedCount / tasks.length) * 100).toFixed(2);
 
   const getStandupsForLast7Days = (standups: any[]) => {
     const today = new Date();
@@ -224,8 +224,12 @@ export default function Home() {
         <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
       </div>
 
-      <div className={s.sFont}>Role: {userRole}</div>
-
+      <div className={s.sFont}>
+        Role:{" "}
+        {userRole
+          ? `${userRole.charAt(0).toUpperCase()}${userRole.slice(1)}`
+          : ""}
+      </div>
       <div className={` ${s.selector}`}>
         <div
           className={
@@ -275,17 +279,40 @@ export default function Home() {
               .map((standup) => (
                 <div key={standup.id}>
                   <div className={s.standup}>
-                    <div>
-                      <div>Developer : {standup.developer.name}</div>
-                      <div>Previous Work : {standup.progress}</div>
-                      <div>Todays work : {standup.plans}</div>
-                      <div>Blockers : {standup.challenge}</div>
-                      <div>Notes : {standup.support}</div>
-                      <div className={s.created}>
-                        Created:{" "}
-                        {new Date(standup.time_standup)
-                          .toISOString()
-                          .slice(0, 10)}
+                    <div className={s.standupCont}>
+                      <div className={s.flex}>
+                        <div>{standup.developer.name}</div>
+                        <div className={s.created}>
+                          {new Date(standup.time_standup)
+                            .toLocaleString("en-US", {
+                              hour12: true,
+                              year: "numeric",
+                              month: "2-digit",
+                              day: "2-digit",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })
+                            .replace(/,/g, "/")}
+                        </div>
+                      </div>
+                      <div className={s.flex}>
+                        <div className={s.double}>
+                          <div className={s.standupTitle}>Previous Work:</div>
+                          <div> {standup.progress}</div>
+                        </div>
+                        <div className={s.double}>
+                          <div className={s.standupTitle}>Todays Work:</div>
+                          <div> {standup.plans}</div>
+                        </div>
+                      </div>
+
+                      <div>
+                        <div className={s.standupTitle}>Blockers:</div>{" "}
+                        <div>{standup.challenge}</div>
+                      </div>
+                      <div>
+                        <div className={s.standupTitle}>Notes: </div>
+                        <div>{standup.support}</div>
                       </div>
                     </div>
                   </div>
@@ -297,7 +324,6 @@ export default function Home() {
             <div className={s.pieCont}>
               <strong> {"Task Completion: " + taskPercentage + "%"}</strong>
               <div className={s.pie}>
-                {" "}
                 <VictoryPie
                   cornerRadius={15}
                   innerRadius={80}
