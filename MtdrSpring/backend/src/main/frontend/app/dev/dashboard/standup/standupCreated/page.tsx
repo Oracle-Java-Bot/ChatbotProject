@@ -50,7 +50,7 @@ export default function Home() {
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
       <div /* Top Wrapper */ className={`${r.wrapper} ${s.titleFlex}`}>
-        <div className={`${s.topTitle} font-bold`}>Standup</div>{" "}
+        <div className={`${s.topTitle} font-bold`}>Standup created</div>{" "}
         <div className={"text-gray-600"}>#Team {user?.team_id}</div>
       </div>
 
