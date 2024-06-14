@@ -42,6 +42,8 @@
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
 .full {
