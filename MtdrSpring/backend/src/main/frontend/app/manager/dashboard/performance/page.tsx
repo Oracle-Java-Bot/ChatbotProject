@@ -269,10 +269,7 @@ export default function Home() {
                 //Filtro para que solo aparezcan standups de hace menos de 48 horas
                 (standup) => {
                   const completedAt = new Date(standup.time_standup);
-                  return (
-                    completedAt >= cutoff &&
-                    standup.developer.team_id === user?.team_id
-                  );
+                  return completedAt >= cutoff;
                 }
               )
 

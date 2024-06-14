@@ -87,20 +87,23 @@ export default function Home() {
       const currentTime = new Date().toISOString();
       setTempStandup({ ...tempStandup, time_standup: currentTime });
 
-      const response = await axios.post("https://team12.kenscourses.com/standups", {
-        ...tempStandup,
-        team: {
-          id: user?.team_id,
-        },
-        developer: {
-          id: user?.id,
-          name: user?.name,
-          email: user?.email,
-          password: user?.password,
-          team_id: user?.team_id,
-          role: user?.role,
-        },
-      });
+      const response = await axios.post(
+        "https://team12.kenscourses.com/standups",
+        {
+          ...tempStandup,
+          team: {
+            id: user?.team_id,
+          },
+          developer: {
+            id: user?.id,
+            name: user?.name,
+            email: user?.email,
+            password: user?.password,
+            team_id: user?.team_id,
+            role: user?.role,
+          },
+        }
+      );
     } catch (error) {
       console.error("Error submitting standup:", error);
     }
@@ -138,7 +141,6 @@ export default function Home() {
             onChange={handleProgressChange}
             placeholder={"Progress made"}
           />
-
           <div className={s.cat}> What do I plan on doing today?: </div>
           <textarea
             /* Plans */
@@ -147,7 +149,6 @@ export default function Home() {
             onChange={handlePlansChange}
             placeholder={"Today's plans"}
           />
-
           <div className={s.cat}> Blockers: </div>
           <textarea
             /* Challenge */
@@ -156,14 +157,15 @@ export default function Home() {
             onChange={handleChallengeChange}
             placeholder={"Write here the things stopping you from progressing."}
           />
-
           <div className={s.cat}> Additional notes: </div>
           <textarea
             /* Support */
             className={s.input}
             value={tempStandup.support}
             onChange={handleSupportChange}
-            placeholder={"Write here the things that you would like to share with your manager."}
+            placeholder={
+              "Write here the things that you would like to share with your manager."
+            }
           />
         </div>
       </div>

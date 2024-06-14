@@ -3,7 +3,9 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import s from "./page.module.css";
 import r from "./responsive.module.css";
+import Lottie from "lottie-react";
 import Link from "next/link";
+import animationData from "../public/oracle_o.json";
 
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -31,7 +33,11 @@ export default function Home() {
         }
       >
         <div className={s.mainCont}>
-          <img className={s.oracle_o} src="/oracle_o.webp" alt="Oracle O" />
+          <Lottie
+            className={s.oracle_o}
+            loop={false}
+            animationData={animationData}
+          />
           <div className={s.bold}>OracleBOT</div>
           <div>{"Let's boost productivity and manage your workload"}</div>
 
