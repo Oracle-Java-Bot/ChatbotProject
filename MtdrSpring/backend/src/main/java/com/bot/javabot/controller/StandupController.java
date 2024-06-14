@@ -29,7 +29,7 @@ public class StandupController {
     @PostMapping(value = "/standups")
     public ResponseEntity<Standup> createStandup(@RequestBody Standup standup){
         Standup createdStandup = standupService.save(standup);
-        return new ResponseEntity<>(standup, HttpStatus.CREATED);
+        return new ResponseEntity<>(createdStandup, HttpStatus.CREATED);
     }
 
     // GET standup by id
