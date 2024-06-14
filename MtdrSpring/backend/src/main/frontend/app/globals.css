@@ -5,13 +5,16 @@
 @tailwind utilities;
 
 :root {
-}
-
-@media (prefers-color-scheme: dark) {
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
 body {
   background-color: var(--white);
+}
+
+body::-webkit-scrollbar {
+  display: none !important;
 }
 
 @layer utilities {

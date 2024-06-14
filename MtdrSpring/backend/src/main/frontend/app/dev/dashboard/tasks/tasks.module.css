@@ -13,7 +13,9 @@
 
 .mainBody {
   width: 100%;
-  height: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+  position: relative;
   background-color: var(--almostwhite);
   border-radius: var(--btn-border);
   padding: 20px 25px;
@@ -67,6 +69,26 @@
   box-shadow: var(--shortglow);
 }
 
+@media (max-width: 320px) {
+  .rightOpt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1.6s ease-in-out;
+    flex-shrink: 0;
+  }
+  .status {
+    font-size: var(--XS);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-radius: var(--btn-border);
+  }
+}
 .rightOpt {
   display: flex;
   align-items: center;

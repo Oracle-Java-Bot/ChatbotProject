@@ -14,18 +14,17 @@ export default function Home() {
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
-   /* CURRENT USER */
-   const [user, setUser] = useState<{
+  /* CURRENT USER */
+  const [user, setUser] = useState<{
     id: number;
     name: string;
     email: string;
     password: string;
     //developer_id: number;
     //manager_id: string;
-    team_id: number; 
+    team_id: number;
     role: string;
   }>();
-
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,9 +56,7 @@ export default function Home() {
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      const storedTasksString = localStorage.getItem(
-        "team_" + user?.team_id
-      );
+      const storedTasksString = localStorage.getItem("team_" + user?.team_id);
       setTasks(JSON.parse(storedTasksString || "[]"));
     }
   }, [user]);
@@ -67,20 +64,20 @@ export default function Home() {
   /* TEMP TASK */
   const [tempTask, setTempTask] = useState<{
     id: number;
-      title: string;
-      description: string;
-      priority: string;
-      status: string;
-      created_at: string;
-      team: {
-        id: number;
-        name: string;
-      };
-      developer: {
-        id: number;
-        name: string;
-        email: string;
-      };
+    title: string;
+    description: string;
+    priority: string;
+    status: string;
+    created_at: string;
+    team: {
+      id: number;
+      name: string;
+    };
+    developer: {
+      id: number;
+      name: string;
+      email: string;
+    };
   }>();
 
   useEffect(() => {
@@ -94,26 +91,29 @@ export default function Home() {
     if (tempTask) {
       try {
         //ONCE WE REDEPLOY WE CAN USE TEAM12.KENSCOURSES.COM
-        const response = await axios.post("https://team12.kenscourses.com/tasks", {
-        ...tempTask,
-        team: {
-        id: user?.team_id
-        },
-        developer: {
-          id: user?.id,
-          name: user?.name,
-          email: user?.email,
-          password: user?.password,
-          team_id: user?.team_id,
-          role: user?.role
+        const response = await axios.post(
+          "https://team12.kenscourses.com/tasks",
+          {
+            ...tempTask,
+            team: {
+              id: user?.team_id,
+            },
+            developer: {
+              id: user?.id,
+              name: user?.name,
+              email: user?.email,
+              password: user?.password,
+              team_id: user?.team_id,
+              role: user?.role,
+            },
+          }
+        );
+        if (response.status === 201) {
+          setTasks((prevTasks) => [...prevTasks, tempTask]);
+          localStorage.removeItem("tempTask");
+        } else {
+          console.error("Failed to create task");
         }
-      });
-      if (response.status === 201) {
-        setTasks((prevTasks) => [...prevTasks, tempTask]);
-        localStorage.removeItem("tempTask");
-      } else {
-        console.error("Failed to create task");
-      }
       } catch (error) {
         console.error("Error creating task:", error);
       }
@@ -152,9 +152,9 @@ export default function Home() {
             <div className={s.title}> {tempTask?.title}</div>
             <div
               className={
-                tempTask?.priority === "Low"
+                tempTask?.priority === "low"
                   ? `${s.priority} ml-2 bg-green-400`
-                  : tempTask?.priority === "Medium"
+                  : tempTask?.priority === "medium"
                   ? `${s.priority} ml-2 bg-yellow-400`
                   : `${s.priority} ml-2 bg-red-400`
               }
@@ -182,18 +182,18 @@ export default function Home() {
             className={`${s.backIcon} !ml-3 !mr-4`}
           />
 
-        <Link
-          onClick={addTask}
-          href="/dev/dashboard/task/created"
-          className={`${s.btn}  !bg-red-500`}
-        >
-          Create Task
-        </Link>
-      </div>
+          <Link
+            onClick={addTask}
+            href="/dev/dashboard/task/created"
+            className={`${s.btn}  !bg-red-500`}
+          >
+            Create Task
+          </Link>
+        </div>
       </div>
     </div>
 
-/*
+    /*
 
       <div
          Bottom Wrapper 

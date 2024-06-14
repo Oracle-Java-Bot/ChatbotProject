@@ -13,7 +13,9 @@
 
 .mainBody {
   width: 100%;
-  height: 100%;
+  max-height: 100%;
+  overflow-y: scroll;
+  position: relative;
   background-color: var(--almostwhite);
   border-radius: var(--btn-border);
   padding: 20px 25px;
@@ -67,9 +69,31 @@
   box-shadow: var(--shortglow);
 }
 
+@media (max-width: 340px) {
+  .rightOpt {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    animation: fadeIn 1.6s ease-in-out;
+    flex-shrink: 0;
+  }
+  .status {
+    font-size: var(--XS);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px 10px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    border-radius: var(--btn-border);
+  }
+}
+
 .rightOpt {
   display: flex;
   align-items: center;
+  justify-content: end;
   animation: fadeIn 1.6s ease-in-out;
   flex-shrink: 0;
 }
@@ -102,8 +126,8 @@
   border-radius: var(--btn-border);
   flex: 1;
   text-align: center;
-  min-width: 70px;
-  width: 70px;
+
+  width: fit-content;
   margin-left: 5px;
 }
 
@@ -145,6 +169,22 @@
 
 .left {
   margin-left: 10px;
+}
+
+.task {
+  padding: 15px 15px;
+  margin: 10px 0;
+  background-color: var(--white);
+  box-shadow: var(--shortglow);
+  border-radius: calc(var(--btn-border) - 3px);
+  animation: fadeIn 1.4s ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tasks {
+  display: flex;
 }
 
 @keyframes fadeIn {

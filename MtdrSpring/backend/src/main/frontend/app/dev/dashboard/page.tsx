@@ -11,7 +11,7 @@ export default function Home() {
 
   const [isFull, setFull] = useState(false); /* Expands the body cont */
   const [isCentered, setCentered] = useState(false); /* Centers the body cont */
-  const [isBottom, setBottom] = useState(true);
+  const [isBottom, setBottom] = useState(false);
   const trueCenter = false;
 
   /* CURRENT USER */
@@ -73,11 +73,12 @@ export default function Home() {
             setUserName(user.name || "");
 
             console.log("User Team ID:", user.team_id);
-            
+
             //setUserTeamId(user?.team_id.toString() || "");
-            const teamId = user.team_id !== undefined ? user.team_id.toString() : "404";
+            const teamId =
+              user.team_id !== undefined ? user.team_id.toString() : "404";
             setUserTeamId(teamId);
-            
+
             setUserRole(user.role || "");
 
             // Set tasks data
@@ -140,15 +141,19 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
         <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
-      <div className={s.sFont}>Role: {userRole}</div>
-
+      <div className={s.sFont}>
+        Role:{" "}
+        {userRole
+          ? `${userRole.charAt(0).toUpperCase()}${userRole.slice(1)}`
+          : ""}
+      </div>
       <div className={s.selection}>
         <Link href="dashboard/task/create" className={`${s.btn}  !bg-red-500 `}>
           Create Task
         </Link>
 
         <Link href="dashboard/standup" className={`${s.btn}  !bg-black !ml-2 `}>
-          Create Stand up
+          Stand-up
         </Link>
       </div>
 

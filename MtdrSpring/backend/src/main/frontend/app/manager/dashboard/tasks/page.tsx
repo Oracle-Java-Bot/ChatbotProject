@@ -18,8 +18,8 @@ import axios from "axios";
 export default function Home() {
   const [isExpanded, setIsExpanded] = useState(false);
 
-  const [isFull, setFull] = useState(false); /* Expands the body cont */
-  const [isCentered, setCentered] = useState(false); /* Centers the body cont */
+  const [isFull, setFull] = useState(true); /* Expands the body cont */
+  const [isCentered, setCentered] = useState(true); /* Centers the body cont */
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
@@ -105,16 +105,20 @@ export default function Home() {
     }
   };
 
+  const formatDate = (timestamp: string | number | Date) => {
+    const date = new Date(timestamp);
+    return date.toLocaleString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+  };
+
   return (
     <div
       /* Main Container */
-      className={
-        isCentered
-          ? trueCenter
-            ? `${r.telegramHeight} ${r.trueCenter}`
-            : `${r.telegramHeight} ${r.centered}`
-          : `${r.telegramHeight} ${r.top}`
-      }
+      className={`${r.telegramHeight}`}
     >
       <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -122,7 +126,13 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {user?.name}!</div>
         <div className={` text-gray-600 `}>#Team {user?.team_id}</div>
       </div>
-      <div className={s.sFont}>Role {user?.role}</div>
+
+      <div className={s.sFont}>
+        Role:{" "}
+        {user?.role
+          ? `${user?.role.charAt(0).toUpperCase()}${user?.role.slice(1)}`
+          : ""}
+      </div>
 
       <div className={` ${s.selector}`}>
         <div
@@ -153,24 +163,30 @@ export default function Home() {
         <div className={s.mainBody}>
           {active // Render tasks that are not cancelled or completed when active is true
             ? tasks
-                .filter((tasks: { status: string }) => tasks.status === "pending")
+                .filter(
+                  (tasks: { status: string }) => tasks.status === "pending"
+                )
                 .map(
                   (task: {
                     id: number;
                     title: string;
                     priority: string;
                     status: string;
+                    updated_at: string;
                     developer: {
                       name: string;
                       email: string;
                     };
                   }) => (
                     <div key={task.id}>
-                      <div className={s.tasks}>
+                      <div className={s.task}>
                         <div>
                           <div>{task.title}</div>
                           <div className="text-gray-500 text-sm mt-1">
                             {task?.developer?.name}
+                          </div>
+                          <div className="text-gray-500 text-sm mt-1">
+                            {formatDate(task?.updated_at)}
                           </div>
                         </div>
                         <div className={s.rightOpt}>
@@ -221,7 +237,7 @@ export default function Home() {
                       email: string;
                     };
                   }) => (
-                    <div key={task.id}>
+                    <div className={s.taskCont} key={task.id}>
                       <div className={s.task}>
                         <div>
                           <div>{task.title}</div>

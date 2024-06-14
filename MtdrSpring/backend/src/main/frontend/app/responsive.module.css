@@ -2,6 +2,7 @@
 .telegramHeight {
   color: var(--black);
   height: var(--tg-viewport-stable-height);
+
   display: flex;
   flex-direction: column;
   padding: 20px;
@@ -30,23 +31,27 @@
 
 .bottom {
   margin-top: auto;
+  flex-basis: end;
 }
 
 /* Main Body Container */
 
 .body {
   width: 100%;
-
-  height: fit-content;
   margin: 20px auto;
   display: flex;
   flex-direction: column;
-}
-
-.fit {
-  height: fit-content;
+  overflow-y: scroll;
+  scrollbar-width: none !important; /* Firefox */
+  -ms-overflow-style: none !important; /* IE and Edge */
 }
 
 .full {
   height: 100%;
+  overflow-y: scroll;
+}
+
+.body2 {
+  max-height: 100%;
+  overflow-y: scroll;
 }

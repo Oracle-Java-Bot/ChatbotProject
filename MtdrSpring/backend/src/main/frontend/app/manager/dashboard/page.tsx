@@ -11,7 +11,7 @@ export default function Home() {
 
   const [isFull, setFull] = useState(false); /* Expands the body cont */
   const [isCentered, setCentered] = useState(false); /* Centers the body cont */
-  const [isBottom, setBottom] = useState(true);
+  const [isBottom, setBottom] = useState(false);
   const trueCenter = false;
 
   /* CURRENT USER */
@@ -126,12 +126,11 @@ export default function Home() {
         <div className={`${s.topTitle} font-bold`}>Welcome {userName}!</div>{" "}
         <div className={` text-gray-600 `}>#Team {userTeamId}</div>
       </div>
-      <div className={s.sFont}>Role: {userRole}</div>
-
-      <div className="flex justify-center gap-4 mt-4">
-        <Link href="dashboard/performance" className={`${s.btn}  !bg-red-500 `}>
-          Performance Review
-        </Link>
+      <div className={s.sFont}>
+        Role:{" "}
+        {userRole
+          ? `${userRole.charAt(0).toUpperCase()}${userRole.slice(1)}`
+          : ""}
       </div>
 
       <div
@@ -139,6 +138,14 @@ export default function Home() {
           isFull ? `${r.body} ${r.full}` : `${r.body} ${r.fit}`
         }
       >
+        <div className="flex justify-center gap-4 mt-2">
+          <Link
+            href="dashboard/performance"
+            className={`${s.btn}  !bg-red-500 `}
+          >
+            Performance Review
+          </Link>
+        </div>
         <div className={s.mainBody}>
           <div className="flex justify-between">
             <div className={s.title}> Tasks</div>
@@ -147,52 +154,48 @@ export default function Home() {
             </Link>
           </div>
 
-          {tasks
-            .filter(
-              (task) =>
-                task.completed_at === null || task.completed_at === undefined
-            )
-            .map((task) => (
-              <div key={task.id}>
-                <div className={s.task}>
-                  <div>
-                    <div>{task.title}</div>
-                    <div className={s.created}>
-                      Created:{" "}
-                      {new Date(task.created_at).toISOString().slice(0, 10)}
-                    </div>
-                  </div>
-                  <div className={s.rightOpt}>
-                    <div className={s.taskDev}>{task.developer.name}</div>
-                    <div
-                      className={
-                        task.priority === "low"
-                          ? `${s.priorityIndicator} bg-green-500`
-                          : task.priority === "medium"
-                          ? `${s.priorityIndicator}  bg-yellow-500 `
-                          : `${s.priorityIndicator} bg-red-500`
-                      }
-                    />
-                    <div
-                      className={
-                        task.status === "completed"
-                          ? `${s.priorityIndicator} bg-green-500 ml-1`
-                          : task.status === "pending"
-                          ? `${s.priorityIndicator}  bg-yellow-500 ml-1 `
-                          : `${s.priorityIndicator} bg-red-500 ml-1`
-                      }
-                    />
+          {tasks.map((task) => (
+            <div key={task.id}>
+              <div className={s.task}>
+                <div>
+                  <div>{task.title}</div>
+                  <div className={s.taskDev}>{task.developer.name}</div>
 
-                    <Link
-                      onClick={() => updateTask(task)}
-                      href="dashboard/task/details"
-                    >
-                      <img className={s.icon} src="/icons/open.png" />
-                    </Link>
+                  <div className={s.created}>
+                    {"Created at: "}
+                    {new Date(task.created_at).toISOString().slice(0, 10)}
                   </div>
                 </div>
+                <div className={s.rightOpt}>
+                  <div
+                    className={
+                      task.priority === "low"
+                        ? `${s.priorityIndicator} bg-green-500`
+                        : task.priority === "medium"
+                        ? `${s.priorityIndicator}  bg-yellow-500 `
+                        : `${s.priorityIndicator} bg-red-500`
+                    }
+                  />
+                  <div
+                    className={
+                      task.status === "completed"
+                        ? `${s.priorityIndicator} bg-green-500 ml-1`
+                        : task.status === "pending"
+                        ? `${s.priorityIndicator}  bg-yellow-500 ml-1 `
+                        : `${s.priorityIndicator} bg-red-500 ml-1`
+                    }
+                  />
+
+                  <Link
+                    onClick={() => updateTask(task)}
+                    href="dashboard/task/details"
+                  >
+                    <img className={s.icon} src="/icons/open.png" />
+                  </Link>
+                </div>
               </div>
-            ))}
+            </div>
+          ))}
         </div>
       </div>
 
