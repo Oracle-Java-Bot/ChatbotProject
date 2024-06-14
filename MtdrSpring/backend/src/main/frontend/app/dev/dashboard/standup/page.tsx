@@ -82,7 +82,7 @@ export default function Home() {
     setTempStandup({ ...tempStandup, support: e.target.value });
   };
 
-  const addStandup = async () => {
+  /*const addStandup = async () => {
     try {
       const currentTime = new Date().toISOString();
       setTempStandup({ ...tempStandup, time_standup: currentTime });
@@ -104,6 +104,28 @@ export default function Home() {
           },
         }
       );
+    } catch (error) {
+      console.error("Error submitting standup:", error);
+    }
+  };*/
+  const addStandup = async () => {
+    try {
+      const response = await axios.post(
+        "https://team12.kenscourses.com/standups",
+        {
+          progress: tempStandup.progress,
+          plans: tempStandup.plans,
+          challenge: tempStandup.challenge,
+          support: tempStandup.support,
+          team: {
+            id: user?.team_id,
+          },
+          developer: {
+            id: user?.id,
+          },
+        }
+      );
+      console.log("Standup created:", response.data);
     } catch (error) {
       console.error("Error submitting standup:", error);
     }
