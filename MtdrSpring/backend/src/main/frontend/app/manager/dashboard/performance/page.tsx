@@ -31,7 +31,6 @@ export default function Home() {
   const [isBottom, setBottom] = useState(true);
   const trueCenter = false;
 
-  const [active, setActive] = useState(true);
   const [seeStandups, setSeeStandups] = useState(false);
 
   /* CURRENT USER */
@@ -205,6 +204,18 @@ export default function Home() {
   };
 
   const standupsData = getStandupsForLast7Days(standups);
+  const [endAngle, setEndAngle] = useState(0);
+
+  useEffect(() => {
+    if (seeStandups) {
+      setEndAngle(0);
+    }
+    if (!seeStandups) {
+      setTimeout(() => {
+        setEndAngle(360);
+      }, 1000);
+    }
+  }, [seeStandups]);
 
   return (
     <div
@@ -322,11 +333,13 @@ export default function Home() {
               <strong> {"Task Completion: " + taskPercentage + "%"}</strong>
               <div className={s.pie}>
                 <VictoryPie
+                  endAngle={endAngle}
+                  animate={{ duration: 1000 }}
                   cornerRadius={15}
                   innerRadius={80}
                   data={pieData}
                   colorScale={colorScale}
-                  labels={({ datum }) => datum.y}
+                  labels={({ datum }) => `${Math.round(datum.y)}`} // Round the value to remove decimals
                   labelRadius={100}
                   style={{
                     labels: { fill: "white", fontSize: 30, fontWeight: "bold" },
@@ -349,7 +362,8 @@ export default function Home() {
 
             <div className={s.standupGraph}>
               <strong>Standups (Últimos 7 días)</strong>
-              <VictoryChart>
+
+              <VictoryChart animate={{ duration: 1000 }}>
                 <VictoryAxis
                   tickFormat={(t) => format(new Date(t), "MM/dd")}
                   style={{
@@ -370,7 +384,7 @@ export default function Home() {
                     data: { fill: "#E74C3C", opacity: 1 },
                     labels: { fontSize: 20 },
                   }}
-                  labels={({ datum }) => datum.y}
+                  labels={({ datum }) => `${Math.round(datum.y)}`}
                   labelComponent={<VictoryLabel dy={20} dx={-15} />}
                 />
               </VictoryChart>
