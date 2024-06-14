@@ -32,7 +32,11 @@ public class Standup {
     //Standup.save(task)
     @PrePersist
     protected void onCreate() {
-        time_standup = new Timestamp(System.currentTimeMillis());
+        System.out.println("onCreate method called");
+        time_standup = new Timestamp(System.currentTimeMillis()
+        );
+        System.out.println("Time set to: " + this.time_standup);
+
     }
 
     /*@Column(name = "team_id")
